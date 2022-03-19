@@ -1,7 +1,7 @@
 import { Box, Container } from '@chakra-ui/react';
 import Nav from '../Nav';
 
-export function Dashboard() {
+export function DashboardLayout() {
   return (
     <>
       <Nav />
