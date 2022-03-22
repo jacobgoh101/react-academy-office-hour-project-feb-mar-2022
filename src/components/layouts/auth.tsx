@@ -6,11 +6,12 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 export function AuthLayout(props: {
-  children: JSX.Element[];
-  title: JSX.Element | string;
-  secondaryTitle: JSX.Element | string;
+  children: ReactNode;
+  title: ReactNode;
+  secondaryTitle: ReactNode;
 }) {
   return (
     <Flex
