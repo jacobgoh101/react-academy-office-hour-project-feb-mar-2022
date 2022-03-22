@@ -2,9 +2,9 @@ import { User } from './user.types';
 
 export interface AuthContext {
   user?: User;
-  signin: Function;
-  signup: Function;
-  signout: Function;
+  login: Function;
+  signUp: Function;
+  signOut: Function;
 }
 
 export interface SignUpResponse {

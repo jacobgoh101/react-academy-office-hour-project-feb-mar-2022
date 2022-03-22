@@ -1,5 +1,6 @@
-import { useContext, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { axiosClient } from '../constants/axios.client';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { authContext } from '../context/auth.context';
 import { AuthService } from '../services/auth.service';
@@ -15,6 +16,10 @@ export const useAuth = () => {
 // Provider hook that creates auth object and handles state
 export function useProvideAuth() {
   const accessTokenRef = useRef<string>();
+  useEffect(() => {
+    // @ts-ignore
+    axiosClient.defaults.headers['x-access-token'] = accessTokenRef.current;
+  }, [accessTokenRef.current]);
 
   const queryClient = useQueryClient();
 
@@ -40,7 +45,7 @@ export function useProvideAuth() {
     return loginMutation.mutateAsync({ email, password });
   };
 
-  const signup = ({
+  const signUp = ({
     name,
     email,
     password,
@@ -59,15 +64,16 @@ export function useProvideAuth() {
     });
   };
 
-  const signout = () => {
+  const signOut = () => {
     accessTokenRef.current = '';
+    queryClient.invalidateQueries(QUERY_KEYS.GET_ME);
   };
 
   // Return the user object and auth methods
   return {
     user,
-    signin: login,
-    signup,
-    signout,
-  };
+    login,
+    signUp,
+    signOut,
+  } as AuthContext;
 }
