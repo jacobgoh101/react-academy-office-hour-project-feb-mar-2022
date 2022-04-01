@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { User } from './user.types';
 
 export interface AuthContext {
@@ -5,6 +6,8 @@ export interface AuthContext {
   login: Function;
   signUp: Function;
   signOut: Function;
+  loginError: AxiosError;
+  signUpError: AxiosError;
 }
 
 export interface SignUpResponse {

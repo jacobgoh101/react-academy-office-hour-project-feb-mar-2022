@@ -75,5 +75,7 @@ export function useProvideAuth() {
     login,
     signUp,
     signOut,
+    loginError: loginMutation.isError && loginMutation.error,
+    signUpError: signupMutation.isError && signupMutation.error,
   } as AuthContext;
 }

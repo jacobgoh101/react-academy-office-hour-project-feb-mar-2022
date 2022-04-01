@@ -12,6 +12,7 @@ export function AuthLayout(props: {
   children: ReactNode;
   title: ReactNode;
   secondaryTitle: ReactNode;
+  alert?: ReactNode;
 }) {
   return (
     <Flex
@@ -35,6 +36,7 @@ export function AuthLayout(props: {
           boxShadow={'lg'}
           p={8}
         >
+          {props.alert}
           <Stack spacing={4}>{props.children}</Stack>
         </Box>
       </Stack>

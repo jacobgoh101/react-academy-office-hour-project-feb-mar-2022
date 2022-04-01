@@ -1,4 +1,7 @@
 import {
+  Alert,
+  AlertIcon,
+  Box,
   Button,
   Checkbox,
   FormControl,
@@ -9,13 +12,13 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { Field, Formik, useFormik } from 'formik';
-import { AuthLayout } from '../components/layouts/auth';
-import { RouterLink } from '../components/router-link';
-import * as Yup from 'yup';
-import { useAuth } from '../hooks/use-auth.hook';
+import { Field, Formik } from 'formik';
 import pick from 'lodash/pick';
 import { useLocation } from 'wouter';
+import * as Yup from 'yup';
+import { AuthLayout } from '../components/layouts/auth';
+import { RouterLink } from '../components/router-link';
+import { useAuth } from '../hooks/use-auth.hook';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -23,13 +26,23 @@ const LoginSchema = Yup.object().shape({
 });
 
 export function LoginPage() {
-  const { login } = useAuth();
+  const { login, loginError } = useAuth();
   const [_, setLocation] = useLocation();
+
+  const alert = loginError && (
+    <Box pb={6}>
+      <Alert status="error" rounded="md">
+        <AlertIcon />
+        The username or password is incorrect
+      </Alert>
+    </Box>
+  );
 
   return (
     <AuthLayout
       title="Sign in to your account"
       secondaryTitle={<>to enjoy all of our cool features ✌️</>}
+      alert={alert}
     >
       <Formik
         initialValues={{
