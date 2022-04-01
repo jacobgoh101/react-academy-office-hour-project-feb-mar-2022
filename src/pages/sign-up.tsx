@@ -1,8 +1,11 @@
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   HStack,
   Input,
@@ -12,71 +15,193 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { Field, Formik } from 'formik';
 import { useState } from 'react';
+import { useLocation } from 'wouter';
+import * as Yup from 'yup';
 import { AuthLayout } from '../components/layouts/auth';
 import { RouterLink } from '../components/router-link';
+import { useAuth } from '../hooks/use-auth.hook';
+
+const SignUpSchema = Yup.object().shape({
+  email: Yup.string().email().required(),
+  password: Yup.string().min(6).max(32).required(),
+  confirmPassword: Yup.string().oneOf(
+    [Yup.ref('password'), null],
+    'Passwords must match'
+  ),
+  name: Yup.string().min(3).max(255).required(),
+});
 
 export function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { signUp, signUpError } = useAuth();
+  const [_, setLocation] = useLocation();
+
+  const alert = signUpError && (
+    <Box pb={6}>
+      <Alert status="error" rounded="md">
+        <AlertIcon />
+        One or more fields are filled out incorrectly. Please check your entries
+        and try again.
+      </Alert>
+    </Box>
+  );
 
   return (
     <AuthLayout
       title="Sign up"
       secondaryTitle="to enjoy all of our cool features ✌️"
+      alert={alert}
     >
-      <HStack>
-        <Box>
-          <FormControl id="firstName" isRequired>
-            <FormLabel>First Name</FormLabel>
-            <Input type="text" />
-          </FormControl>
-        </Box>
-        <Box>
-          <FormControl id="lastName">
-            <FormLabel>Last Name</FormLabel>
-            <Input type="text" />
-          </FormControl>
-        </Box>
-      </HStack>
-      <FormControl id="email" isRequired>
-        <FormLabel>Email address</FormLabel>
-        <Input type="email" />
-      </FormControl>
-      <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
-        <InputGroup>
-          <Input type={showPassword ? 'text' : 'password'} />
-          <InputRightElement h={'full'}>
-            <Button
-              variant={'ghost'}
-              onClick={() => setShowPassword((showPassword) => !showPassword)}
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+          confirmPassword: '',
+          name: '',
+        }}
+        validationSchema={SignUpSchema}
+        onSubmit={async (values, { setSubmitting }) => {
+          await signUp(values);
+          setLocation('/');
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <FormControl
+              id="name"
+              isRequired
+              isInvalid={!!errors.name && touched.name}
             >
-              {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </FormControl>
-      <Stack spacing={10} pt={2}>
-        <Button
-          loadingText="Submitting"
-          size="lg"
-          bg={'blue.400'}
-          color={'white'}
-          _hover={{
-            bg: 'blue.500',
-          }}
-        >
-          Sign up
-        </Button>
-      </Stack>
-      <Stack pt={6}>
-        <Text align={'center'}>
-          Already a user?{' '}
-          <RouterLink href="/login">
-            <Link color={'blue.400'}>Login</Link>
-          </RouterLink>
-        </Text>
-      </Stack>
+              <FormLabel>Name</FormLabel>
+              <Field
+                as={Input}
+                name="name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.name}
+              />
+              <FormErrorMessage>{errors.name}</FormErrorMessage>
+            </FormControl>
+            <FormControl
+              id="email"
+              isRequired
+              isInvalid={!!errors.email && touched.email}
+              mt={4}
+            >
+              <FormLabel>Email address</FormLabel>
+              <Field
+                as={Input}
+                name="email"
+                type="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+              />
+              <FormErrorMessage>{errors.email}</FormErrorMessage>
+            </FormControl>
+            <HStack mt={4} align={'start'}>
+              <Box w={'50%'}>
+                <FormControl
+                  id="password"
+                  isRequired
+                  isInvalid={!!errors.password && touched.password}
+                >
+                  <FormLabel>Password</FormLabel>
+                  <InputGroup>
+                    <Field
+                      as={Input}
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                    />
+                    <InputRightElement h={'full'}>
+                      <Button
+                        variant={'ghost'}
+                        onClick={() =>
+                          setShowPassword((showPassword) => !showPassword)
+                        }
+                      >
+                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                  <FormErrorMessage>{errors.password}</FormErrorMessage>
+                </FormControl>{' '}
+              </Box>
+              <Box w={'50%'}>
+                <FormControl
+                  id="confirmPassword"
+                  isRequired
+                  isInvalid={
+                    !!errors.confirmPassword && touched.confirmPassword
+                  }
+                >
+                  <FormLabel>Confirm Password</FormLabel>
+                  <InputGroup>
+                    <Field
+                      as={Input}
+                      name="confirmPassword"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.confirmPassword}
+                    />
+                    <InputRightElement h={'full'}>
+                      <Button
+                        variant={'ghost'}
+                        onClick={() =>
+                          setShowConfirmPassword(
+                            (showConfirmPassword) => !showConfirmPassword
+                          )
+                        }
+                      >
+                        {showConfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                  <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
+                </FormControl>{' '}
+              </Box>
+            </HStack>
+            <Stack spacing={10} pt={2} mt={4}>
+              <Button
+                loadingText="Submitting"
+                size="lg"
+                bg={'blue.400'}
+                color={'white'}
+                _hover={{
+                  bg: 'blue.500',
+                }}
+                type="submit"
+                isLoading={isSubmitting}
+              >
+                Sign up
+              </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={'center'}>
+                Already a user?{' '}
+                <RouterLink href="/login">
+                  <Link color={'blue.400'}>Login</Link>
+                </RouterLink>
+              </Text>
+            </Stack>{' '}
+          </form>
+        )}
+      </Formik>
     </AuthLayout>
   );
 }
