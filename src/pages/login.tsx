@@ -101,6 +101,7 @@ export function LoginPage() {
                 justify={'space-between'}
               >
                 <Field
+                  visibility={'hidden'}
                   as={Checkbox}
                   name="rememberMe"
                   onChange={handleChange}
