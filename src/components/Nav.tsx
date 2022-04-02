@@ -11,10 +11,12 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { AvatarGenerator } from 'random-avatar-generator';
+import { useAuth } from '../hooks/use-auth.hook';
 
 const avatarGenerator = new AvatarGenerator();
 
 export default function Nav() {
+  const { user } = useAuth();
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -32,12 +34,13 @@ export default function Nav() {
                 minW={0}
               >
                 <Flex alignItems={'center'}>
-                  <Box mr={3}>Username </Box>
-                  <Avatar
-                    size={'sm'}
-                    // TODO: use user ID to generate avatar
-                    src={avatarGenerator.generateRandomAvatar('2')}
-                  />{' '}
+                  {user && <Box mr={3}>{user.name} </Box>}
+                  {user && (
+                    <Avatar
+                      size={'sm'}
+                      src={avatarGenerator.generateRandomAvatar(user.id)}
+                    />
+                  )}
                 </Flex>
               </MenuButton>
               <MenuList>
