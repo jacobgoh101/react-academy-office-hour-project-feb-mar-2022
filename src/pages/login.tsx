@@ -14,10 +14,10 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import pick from 'lodash/pick';
-import { useLocation } from 'wouter';
 import * as Yup from 'yup';
 import { AuthLayout } from '../components/layouts/auth';
 import { RouterLink } from '../components/router-link';
+import { useAfterAuth } from '../hooks/use-after-auth.hook';
 import { useAuth } from '../hooks/use-auth.hook';
 
 const LoginSchema = Yup.object().shape({
@@ -27,7 +27,7 @@ const LoginSchema = Yup.object().shape({
 
 export function LoginPage() {
   const { login, loginError } = useAuth();
-  const [_, setLocation] = useLocation();
+  useAfterAuth();
 
   const alert = loginError && (
     <Box pb={6}>
@@ -53,7 +53,6 @@ export function LoginPage() {
         validationSchema={LoginSchema}
         onSubmit={async (values, { setSubmitting }) => {
           await login(pick(values, 'email', 'password'));
-          setLocation('/');
         }}
       >
         {({

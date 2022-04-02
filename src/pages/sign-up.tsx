@@ -17,10 +17,10 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { useState } from 'react';
-import { useLocation } from 'wouter';
 import * as Yup from 'yup';
 import { AuthLayout } from '../components/layouts/auth';
 import { RouterLink } from '../components/router-link';
+import { useAfterAuth } from '../hooks/use-after-auth.hook';
 import { useAuth } from '../hooks/use-auth.hook';
 
 const SignUpSchema = Yup.object().shape({
@@ -37,7 +37,7 @@ export function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signUp, signUpError } = useAuth();
-  const [_, setLocation] = useLocation();
+  useAfterAuth();
 
   const alert = signUpError && (
     <Box pb={6}>
@@ -65,7 +65,6 @@ export function SignupPage() {
         validationSchema={SignUpSchema}
         onSubmit={async (values, { setSubmitting }) => {
           await signUp(values);
-          setLocation('/');
         }}
       >
         {({
@@ -194,7 +193,7 @@ export function SignupPage() {
             <Stack pt={6}>
               <Text align={'center'}>
                 Already a user?{' '}
-                <RouterLink href="/login">
+                <RouterLink href={'/login' + window.location.search}>
                   <Link color={'blue.400'}>Login</Link>
                 </RouterLink>
               </Text>
