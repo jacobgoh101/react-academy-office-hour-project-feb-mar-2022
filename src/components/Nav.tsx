@@ -16,7 +16,7 @@ import { useAuth } from '../hooks/use-auth.hook';
 const avatarGenerator = new AvatarGenerator();
 
 export default function Nav() {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -44,7 +44,7 @@ export default function Nav() {
                 </Flex>
               </MenuButton>
               <MenuList>
-                <MenuItem>Log out</MenuItem>
+                <MenuItem onClick={(_) => signOut()}>Log out</MenuItem>
               </MenuList>
             </Menu>
           </Flex>

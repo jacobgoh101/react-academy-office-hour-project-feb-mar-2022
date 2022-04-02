@@ -72,6 +72,7 @@ export function useProvideAuth() {
   const signOut = () => {
     setAccessToken('');
     queryClient.invalidateQueries(QUERY_KEYS.GET_ME);
+    queryClient.clear();
   };
 
   // Return the user object and auth methods
