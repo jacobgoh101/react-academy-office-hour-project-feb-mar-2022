@@ -3,6 +3,7 @@ import { User } from './user.types';
 
 export interface AuthContext {
   user?: User;
+  isLoadingUser?: boolean;
   login: Function;
   signUp: Function;
   signOut: Function;

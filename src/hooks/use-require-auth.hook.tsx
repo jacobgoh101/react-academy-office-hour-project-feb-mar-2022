@@ -4,7 +4,7 @@ import { useAuth } from './use-auth.hook';
 
 export function useRequireAuth(redirectUrl = '/signup') {
   const auth = useAuth();
-  const { user } = auth;
+  const { user, isLoadingUser } = auth;
   const [location, setLocation] = useLocation();
 
   const url = new URL(redirectUrl, window.location.origin);
@@ -12,9 +12,9 @@ export function useRequireAuth(redirectUrl = '/signup') {
   redirectUrl = url.toString().replace(window.location.origin, '');
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !isLoadingUser) {
       setLocation(redirectUrl);
     }
-  }, [user, location]);
+  }, [user, isLoadingUser, location]);
   return auth;
 }

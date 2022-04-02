@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useSessionStorage } from 'react-use';
 import { axiosClient } from '../constants/axios.client';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { authContext } from '../context/auth.context';
@@ -15,22 +16,26 @@ export const useAuth = () => {
 
 // Provider hook that creates auth object and handles state
 export function useProvideAuth() {
-  const accessTokenRef = useRef<string>();
+  const [accessToken, setAccessToken] = useSessionStorage(
+    'invoice-app-access-token',
+    ''
+  );
+
   useEffect(() => {
     // @ts-ignore
-    axiosClient.defaults.headers['x-access-token'] = accessTokenRef.current;
-  }, [accessTokenRef.current]);
+    axiosClient.defaults.headers['x-access-token'] = accessToken;
+  }, [accessToken]);
 
   const queryClient = useQueryClient();
 
   const meQuery = useQuery(QUERY_KEYS.GET_ME, UserService.getMe, {
-    enabled: !!accessTokenRef.current,
+    enabled: !!accessToken,
   });
   const user = meQuery.data?.data;
 
   const loginMutation = useMutation(AuthService.login, {
     onSuccess(resp) {
-      accessTokenRef.current = resp.data.token;
+      setAccessToken(resp.data.token);
       queryClient.invalidateQueries(QUERY_KEYS.GET_ME);
     },
   });
@@ -65,12 +70,13 @@ export function useProvideAuth() {
   };
 
   const signOut = () => {
-    accessTokenRef.current = '';
+    setAccessToken('');
     queryClient.invalidateQueries(QUERY_KEYS.GET_ME);
   };
 
   // Return the user object and auth methods
   return {
+    isLoadingUser: meQuery.isLoading,
     user,
     login,
     signUp,
