@@ -1,8 +1,12 @@
 import { axiosClient } from '../constants/axios.client';
-import { User } from '../types/user.types';
+import { CompanyDetails, User } from '../types/user.types';
 
-export class UserService {
+export class MeService {
   static getMe() {
     return axiosClient.get<User>('me');
+  }
+
+  static updateMyCompany(payload: CompanyDetails) {
+    return axiosClient.put<User>('me/company', payload);
   }
 }

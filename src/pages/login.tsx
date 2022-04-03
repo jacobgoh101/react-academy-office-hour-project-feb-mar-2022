@@ -21,8 +21,8 @@ import { useAfterAuth } from '../hooks/use-after-auth.hook';
 import { useAuth } from '../hooks/use-auth.hook';
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email().required(),
-  password: Yup.string().min(6).max(32).required(),
+  email: Yup.string().email().required().label('Email'),
+  password: Yup.string().min(6).max(32).required().label('Password'),
 });
 
 export function LoginPage() {

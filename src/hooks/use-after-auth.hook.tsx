@@ -11,7 +11,7 @@ export function useAfterAuth() {
 
   useEffect(() => {
     if (user) {
-      setLocation(destination || '');
+      setLocation(destination || '/');
     }
   }, [user]);
   return auth;

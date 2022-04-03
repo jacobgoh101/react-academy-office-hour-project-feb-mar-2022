@@ -24,13 +24,13 @@ import { useAfterAuth } from '../hooks/use-after-auth.hook';
 import { useAuth } from '../hooks/use-auth.hook';
 
 const SignUpSchema = Yup.object().shape({
-  email: Yup.string().email().required(),
-  password: Yup.string().min(6).max(32).required(),
-  confirmPassword: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Passwords must match'
-  ),
-  name: Yup.string().min(3).max(255).required(),
+  email: Yup.string().email().required().label('Email'),
+  password: Yup.string().min(6).max(32).required().label('Password'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required()
+    .label('Confirm Password'),
+  name: Yup.string().min(3).max(255).required().label('Name'),
 });
 
 export function SignupPage() {

@@ -5,7 +5,7 @@ import { axiosClient } from '../constants/axios.client';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { authContext } from '../context/auth.context';
 import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
+import { MeService } from '../services/user.service';
 import { AuthContext } from '../types/auth.types';
 
 // Hook for child components to get the auth object ...
@@ -28,7 +28,7 @@ export function useProvideAuth() {
 
   const queryClient = useQueryClient();
 
-  const meQuery = useQuery(QUERY_KEYS.GET_ME, UserService.getMe, {
+  const meQuery = useQuery(QUERY_KEYS.GET_ME, MeService.getMe, {
     enabled: !!accessToken,
   });
   const user = meQuery.data?.data;
