@@ -1,5 +1,6 @@
 import { Box, Heading, Text, Button } from '@chakra-ui/react';
 import { DashboardLayout } from '../components/layouts/dashboard';
+import { RouterLink } from '../components/router-link';
 
 export default function NotFoundPage() {
   return (
@@ -21,14 +22,16 @@ export default function NotFoundPage() {
           The page you're looking for does not seem to exist
         </Text>
 
-        <Button
-          colorScheme="blue"
-          bgGradient="linear(to-r, blue.400, blue.500, blue.600)"
-          color="white"
-          variant="solid"
-        >
-          Go to Home
-        </Button>
+        <RouterLink href="/">
+          <Button
+            colorScheme="blue"
+            bgGradient="linear(to-r, blue.400, blue.500, blue.600)"
+            color="white"
+            variant="solid"
+          >
+            Go to Home
+          </Button>
+        </RouterLink>
       </Box>
     </DashboardLayout>
   );
