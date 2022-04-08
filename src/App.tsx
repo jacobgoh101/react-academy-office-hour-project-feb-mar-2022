@@ -1,7 +1,7 @@
 import { Route, Switch } from 'wouter';
-import { DashboardLayout } from './components/layouts/dashboard';
-import { OnboardingPage } from './pages/onboarding';
+import NotFoundPage from './pages/404';
 import { LoginPage } from './pages/login';
+import { OnboardingPage } from './pages/onboarding';
 import { SignupPage } from './pages/sign-up';
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <OnboardingPage />
       </Route>
       <Route>
-        <DashboardLayout />
+        <NotFoundPage />
       </Route>
     </Switch>
   );
