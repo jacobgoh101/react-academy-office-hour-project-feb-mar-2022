@@ -1,4 +1,4 @@
-import { Box, Container } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import React, { ReactNode } from 'react';
 import { useRequireAuth } from '../../hooks/use-require-auth.hook';
 import { useRequireOnboarding } from '../../hooks/use-require-onboarding.hook';
@@ -11,7 +11,9 @@ export function DashboardLayout(props: { children: ReactNode }) {
   return (
     <>
       <Nav />
-      <Container maxW="container.xl">{props.children}</Container>
+      <Container mt={6} mb={20} maxW="container.xl">
+        {props.children}
+      </Container>
     </>
   );
 }
