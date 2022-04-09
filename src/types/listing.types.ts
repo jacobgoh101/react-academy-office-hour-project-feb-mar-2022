@@ -1,5 +1,6 @@
 export interface PaginatedResponse<T> {
-  clients: T[];
+  clients?: T[];
+  invoices?: T[];
   total: number;
 }
 

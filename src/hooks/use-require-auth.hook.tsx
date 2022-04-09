@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useAuth } from './use-auth.hook';
 
-export function useRequireAuth(redirectUrl = '/signup') {
+export function useRequireAuth(redirectUrl = '/login') {
   const auth = useAuth();
   const { user, isLoadingUser } = auth;
   const [location, setLocation] = useLocation();
@@ -13,7 +13,7 @@ export function useRequireAuth(redirectUrl = '/signup') {
 
   useEffect(() => {
     if (!user && !isLoadingUser) {
-      setLocation(redirectUrl);
+      return setLocation(redirectUrl);
     }
   }, [user, isLoadingUser, location]);
   return auth;
