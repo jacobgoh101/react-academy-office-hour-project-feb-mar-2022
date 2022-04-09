@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { useContext, useEffect, useRef } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useSessionStorage } from 'react-use';
@@ -30,6 +31,11 @@ export function useProvideAuth() {
 
   const meQuery = useQuery(QUERY_KEYS.GET_ME, MeService.getMe, {
     enabled: !!accessToken,
+    onError: (err: AxiosError) => {
+      if (err?.response?.status === 401) {
+        setAccessToken('');
+      }
+    },
   });
   const user = meQuery.data?.data;
 
