@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { AvatarGenerator } from 'random-avatar-generator';
 import { useAuth } from '../hooks/use-auth.hook';
+import { RouterLink } from './router-link';
 
 const avatarGenerator = new AvatarGenerator();
 
@@ -22,7 +23,9 @@ export default function Nav() {
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
-            <Box>Invoice App</Box>
+            <Box>
+              <RouterLink href="/">Invoice App</RouterLink>
+            </Box>
           </HStack>
           <Flex alignItems={'center'}>
             <Menu>
