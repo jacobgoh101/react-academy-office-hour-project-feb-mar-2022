@@ -17,14 +17,16 @@ export const useAuth = () => {
 
 // Provider hook that creates auth object and handles state
 export function useProvideAuth() {
+  const accessTokenStorageKey = 'invoice-app-access-token';
   const [accessToken, setAccessToken] = useSessionStorage(
-    'invoice-app-access-token',
-    ''
+    accessTokenStorageKey,
+    '',
+    true
   );
 
+  setAccessTokenInAxios(accessToken);
   useEffect(() => {
-    // @ts-ignore
-    axiosClient.defaults.headers['x-access-token'] = accessToken;
+    setAccessTokenInAxios(accessToken);
   }, [accessToken]);
 
   const queryClient = useQueryClient();
@@ -91,4 +93,9 @@ export function useProvideAuth() {
     loginError: loginMutation.isError && loginMutation.error,
     signUpError: signupMutation.isError && signupMutation.error,
   } as AuthContext;
+}
+
+function setAccessTokenInAxios(accessToken: string) {
+  // @ts-ignore
+  axiosClient.defaults.headers['x-access-token'] = accessToken;
 }
