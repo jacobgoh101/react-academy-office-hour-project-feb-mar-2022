@@ -17,6 +17,7 @@ function App() {
       <Route path="/onboarding">
         <OnboardingPage />
       </Route>
+      <Route path="/invoices/:id">{({ id }) => <div>Hello, {id}!</div>}</Route>
       <Route path="/">
         <DashboardPage />
       </Route>

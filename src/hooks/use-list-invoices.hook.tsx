@@ -36,6 +36,7 @@ export const useListInvoices = (listingParams?: ListingParams) => {
       value: invoiceWithClient.invoice.value,
       clientName: invoiceWithClient.client.name,
       companyName: invoiceWithClient.client.companyDetails.name,
+      rowHref: `/invoices/${invoiceWithClient.invoice.id}`,
     })) || [];
 
   return {

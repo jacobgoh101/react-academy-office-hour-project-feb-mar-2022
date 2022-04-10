@@ -11,3 +11,8 @@ export interface ListingParams {
   limit?: number;
   offset?: number;
 }
+
+export interface TableData extends Object {
+  id: string;
+  rowHref?: string;
+}

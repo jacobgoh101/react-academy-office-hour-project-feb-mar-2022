@@ -10,9 +10,11 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { Column, useSortBy, useTable } from 'react-table';
+import { Column, Row, useSortBy, useTable } from 'react-table';
+import { useLocation } from 'wouter';
+import { TableData } from '../../types/listing.types';
 
-export function DataTable<D extends object>(props: {
+export function DataTable<D extends TableData>(props: {
   columns: Column<D>[];
   data: D[];
   isLoading?: boolean;
@@ -28,6 +30,11 @@ export function DataTable<D extends object>(props: {
     errorMessage = 'Failed to Load Data',
     sortable = false,
   } = props;
+  const [_, setLocation] = useLocation();
+
+  function handleRowClick(row: Row<D>) {
+    return () => row.original.rowHref && setLocation(row.original.rowHref);
+  }
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<D>(
@@ -92,7 +99,11 @@ export function DataTable<D extends object>(props: {
         {rows.map((row) => {
           prepareRow(row);
           return (
-            <Tr {...row.getRowProps()}>
+            <Tr
+              {...row.getRowProps()}
+              onClick={handleRowClick(row)}
+              cursor={row.original.rowHref ? 'pointer' : undefined}
+            >
               {row.cells.map((cell) => (
                 <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
               ))}

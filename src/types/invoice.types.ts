@@ -1,4 +1,5 @@
 import { Client } from './client.types';
+import { TableData } from './listing.types';
 
 export interface InvoiceWithClient {
   invoice: Invoice;
@@ -21,7 +22,7 @@ interface Meta {
   test: string;
 }
 
-export interface TableInvoiceData {
+export interface TableInvoiceData extends TableData {
   id: string;
   invoiceNumber: string;
   date: string;
