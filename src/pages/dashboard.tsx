@@ -1,7 +1,7 @@
 import { Box, Heading } from '@chakra-ui/react';
 import { DashboardLayout } from '../components/layouts/dashboard';
-import { ClientDataTable } from '../components/DataTable/ClientDataTable';
-import { InvoiceDataTable } from '../components/DataTable/InvoiceDataTable';
+import { ClientDataTable } from '../components/data-table/ClientDataTable';
+import { InvoiceDataTable } from '../components/data-table/InvoiceDataTable';
 
 export default function DashboardPage() {
   return (

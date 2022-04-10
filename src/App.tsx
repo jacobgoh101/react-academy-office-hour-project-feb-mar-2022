@@ -1,6 +1,7 @@
 import { Route, Switch } from 'wouter';
 import NotFoundPage from './pages/404';
 import DashboardPage from './pages/dashboard';
+import InvoicePage from './pages/invoice';
 import { LoginPage } from './pages/login';
 import { OnboardingPage } from './pages/onboarding';
 import { SignupPage } from './pages/sign-up';
@@ -17,7 +18,7 @@ function App() {
       <Route path="/onboarding">
         <OnboardingPage />
       </Route>
-      <Route path="/invoices/:id">{({ id }) => <div>Hello, {id}!</div>}</Route>
+      <Route path="/invoices/:id">{({ id }) => <InvoicePage id={id} />}</Route>
       <Route path="/">
         <DashboardPage />
       </Route>

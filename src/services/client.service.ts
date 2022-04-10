@@ -1,4 +1,5 @@
 import { axiosClient } from '../constants/axios.client';
+import { ApiResponse } from '../types/api.type';
 import { Client } from '../types/client.types';
 import { ListingParams, PaginatedResponse } from '../types/listing.types';
 
@@ -15,5 +16,9 @@ export class ClientService {
         }),
       },
     });
+  }
+
+  static get(id: string) {
+    return axiosClient.get<ApiResponse<Client>>(`clients/${id}`);
   }
 }

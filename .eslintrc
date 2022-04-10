@@ -35,6 +35,13 @@
         // no need to import react with react 18+
         "react/jsx-uses-react": "off",
         "react/react-in-jsx-scope": "off",
+        "react/self-closing-comp": [
+            "error",
+            {
+                "component": true,
+                "html": true
+            }
+        ],
         // react-hooks rules
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "error"

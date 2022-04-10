@@ -1,6 +1,7 @@
 import { axiosClient } from '../constants/axios.client';
+import { ApiResponse } from '../types/api.type';
 import { Client } from '../types/client.types';
-import { InvoiceWithClient } from '../types/invoice.types';
+import { Invoice, InvoiceWithClient } from '../types/invoice.types';
 import { ListingParams, PaginatedResponse } from '../types/listing.types';
 
 export class InvoiceService {
@@ -12,5 +13,9 @@ export class InvoiceService {
         params: JSON.stringify({ filter, sort, offset, limit }),
       },
     });
+  }
+
+  static get(id: string) {
+    return axiosClient.get<ApiResponse<Invoice>>(`invoices/${id}`);
   }
 }

@@ -4,7 +4,7 @@ import { QUERY_KEYS } from '../constants/query.constant';
 import { InvoiceService } from '../services/invoice.service';
 import { TableInvoiceData } from '../types/invoice.types';
 import { ListingParams } from '../types/listing.types';
-import dayjs from 'dayjs';
+import { formatUnix } from '../utils/date.util';
 
 export const useListInvoices = (listingParams?: ListingParams) => {
   const listInvoicesQuery = useQuery(
@@ -27,12 +27,8 @@ export const useListInvoices = (listingParams?: ListingParams) => {
     listInvoicesQuery.data?.data.invoices?.map((invoiceWithClient) => ({
       id: invoiceWithClient.invoice.id,
       invoiceNumber: invoiceWithClient.invoice.invoice_number,
-      date: dayjs
-        .unix(invoiceWithClient.invoice.date)
-        .format('MMM D, YYYY h:mm A	'),
-      dueDate: dayjs
-        .unix(invoiceWithClient.invoice.dueDate)
-        .format('MMM D, YYYY h:mm A	'),
+      date: formatUnix(invoiceWithClient.invoice.date),
+      dueDate: formatUnix(invoiceWithClient.invoice.dueDate),
       value: invoiceWithClient.invoice.value,
       clientName: invoiceWithClient.client.name,
       companyName: invoiceWithClient.client.companyDetails.name,

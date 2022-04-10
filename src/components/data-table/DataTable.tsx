@@ -13,6 +13,7 @@ import {
 import { Column, Row, useSortBy, useTable } from 'react-table';
 import { useLocation } from 'wouter';
 import { TableData } from '../../types/listing.types';
+import { StandardErrorMessage } from '../StandardErrorMessage';
 
 export function DataTable<D extends TableData>(props: {
   columns: Column<D>[];
@@ -85,14 +86,7 @@ export function DataTable<D extends TableData>(props: {
         {isError && (
           <Tr>
             <Td colSpan={columns.length}>
-              <Heading
-                size="md"
-                my={20}
-                textAlign={'center'}
-                fontWeight={'bold'}
-              >
-                {errorMessage}
-              </Heading>
+              <StandardErrorMessage>{errorMessage}</StandardErrorMessage>
             </Td>
           </Tr>
         )}
