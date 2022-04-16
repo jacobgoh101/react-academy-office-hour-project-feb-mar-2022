@@ -1,13 +1,5 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Icon,
-  Progress,
-  Spacer,
-} from '@chakra-ui/react';
-import { MdCreate } from 'react-icons/md';
+import { Box, Flex, Heading, Progress, Spacer } from '@chakra-ui/react';
+import { CreateButton } from '../components/button/CreateButton';
 import { ClientDetails } from '../components/client/ClientDetails';
 import { InvoiceDataTable } from '../components/data-table/InvoiceDataTable';
 import { DashboardLayout } from '../components/layouts/dashboard';
@@ -32,10 +24,7 @@ export default function ClientPage(props: { id: string }) {
             <Flex mb={5}>
               <Spacer />
               <Box>
-                <Button>
-                  <Icon as={MdCreate} mr={1} />
-                  Create Invoice
-                </Button>
+                <CreateButton>Create Invoice</CreateButton>
               </Box>
             </Flex>
             <ClientDetails client={clientData?.data.client!} />
