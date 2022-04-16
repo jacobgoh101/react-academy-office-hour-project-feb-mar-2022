@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Spacer, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, SimpleGrid, Spacer, Text } from '@chakra-ui/react';
 import { forwardRef, Ref } from 'react';
 import { Client } from '../../types/client.types';
 import { Invoice } from '../../types/invoice.types';
@@ -13,7 +13,10 @@ export const InvoiceDetails = forwardRef(
       <Box ref={ref}>
         {/* styles for react-to-print */}
         <style>{`@page { margin: ${'40px'} ${'40px'} ${'40px'} ${'40px'} !important; }`}</style>
-        <Flex>
+        <SimpleGrid
+          minChildWidth={{ base: '70vw', md: '450px' }}
+          spacing={'40px'}
+        >
           <Box>
             <Heading size={'md'} mb={2}>
               Bill To:
@@ -29,8 +32,7 @@ export const InvoiceDetails = forwardRef(
               {client?.companyDetails.address}
             </Text>
           </Box>
-          <Spacer />
-          <Box w={'40%'}>
+          <Box>
             <Box>
               <Heading
                 px={6}
@@ -66,7 +68,7 @@ export const InvoiceDetails = forwardRef(
               value={invoice?.projectCode!}
             />
           </Box>
-        </Flex>
+        </SimpleGrid>
         <Box mt={20}>
           <Heading size={'md'} mb={2} textAlign={'center'}>
             Invoice Value: ${invoice?.value}

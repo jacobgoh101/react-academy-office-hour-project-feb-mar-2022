@@ -9,7 +9,16 @@ export function DashboardLayout(props: { children: ReactNode }) {
   return (
     <>
       <Nav />
-      <Container mt={6} mb={20} maxW="container.xl">
+      <Container
+        mt={6}
+        mb={20}
+        maxW={{
+          sm: 'container.sm',
+          md: 'container.md',
+          lg: 'container.lg',
+          xl: 'container.xl',
+        }}
+      >
         {props.children}
       </Container>
     </>
