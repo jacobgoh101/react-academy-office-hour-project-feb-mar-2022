@@ -1,6 +1,4 @@
 import {
-  Alert,
-  AlertIcon,
   Box,
   Button,
   FormControl,
@@ -18,6 +16,7 @@ import { AuthLayout } from '../components/layouts/auth';
 import { useAlreadyOnboarded } from '../hooks/use-already-onboarded.hook';
 import { useRequireAuth } from '../hooks/use-require-auth.hook';
 import { useUpdateMe } from '../hooks/use-update-me.hook';
+import { StandardFormErrorAlert } from '../components/StandardFormErrorAlert';
 
 const UpdateMyCompanySchema = Yup.object().shape({
   name: Yup.string().required().label('Name'),
@@ -41,13 +40,7 @@ export function OnboardingPage() {
 
   const alert =
     isUpdateMyCompanyError && updateMyCompanyError ? (
-      <Box pb={6}>
-        <Alert status="error" rounded="md">
-          <AlertIcon />
-          One or more fields are filled out incorrectly. Please check your
-          entries and try again.
-        </Alert>
-      </Box>
+      <StandardFormErrorAlert />
     ) : undefined;
 
   return (

@@ -21,4 +21,14 @@ export class ClientService {
   static get(id: string) {
     return axiosClient.get<ApiResponse<Client>>(`clients/${id}`);
   }
+
+  static update(
+    payload: Pick<Client, 'id' | 'email' | 'name' | 'companyDetails'>
+  ) {
+    return axiosClient.put<ApiResponse<Client>>(`clients`, payload);
+  }
+
+  static create(payload: Pick<Client, 'email' | 'name' | 'companyDetails'>) {
+    return axiosClient.post<ApiResponse<Client>>(`clients`, payload);
+  }
 }

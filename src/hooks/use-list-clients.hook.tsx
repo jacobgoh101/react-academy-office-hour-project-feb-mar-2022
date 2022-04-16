@@ -3,6 +3,7 @@ import { MenuItem } from '@chakra-ui/react';
 import { useQuery } from 'react-query';
 import { Column } from 'react-table';
 import { DataTableDropDownIcon } from '../components/data-table/DataTableDropDownIcon';
+import { RouterLink } from '../components/router-link';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { ClientService } from '../services/client.service';
 import { TableClientData } from '../types/client.types';
@@ -35,7 +36,9 @@ export const useListClients = (listingParams?: ListingParams) => {
       rowHref: `/clients/${client.id}`,
       action: (
         <DataTableDropDownIcon>
-          <MenuItem icon={<EditIcon />}>Edit client</MenuItem>
+          <RouterLink href={`/clients/${client.id}/edit`}>
+            <MenuItem icon={<EditIcon />}>Edit client</MenuItem>
+          </RouterLink>
           <MenuItem icon={<AddIcon />}>
             Add a new invoice for the client
           </MenuItem>

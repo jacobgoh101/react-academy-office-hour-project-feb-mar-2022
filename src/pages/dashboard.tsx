@@ -1,10 +1,11 @@
-import { Box, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
-import { ReactNode } from 'react';
+import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
 import { CreateButton } from '../components/button/CreateButton';
 import { ViewButton } from '../components/button/ViewButton';
 import { ClientDataTable } from '../components/data-table/ClientDataTable';
 import { InvoiceDataTable } from '../components/data-table/InvoiceDataTable';
 import { DashboardLayout } from '../components/layouts/dashboard';
+import { RouterLink } from '../components/router-link';
+import { HeaderActionButtonsGroup } from '../components/HeaderActionButtonsGroup';
 
 export default function DashboardPage() {
   return (
@@ -15,7 +16,9 @@ export default function DashboardPage() {
           <HeaderActionButtonsGroup
             buttons={[
               <ViewButton>View Clients</ViewButton>,
-              <CreateButton>Create Client</CreateButton>,
+              <RouterLink href="/clients/new">
+                <CreateButton>Create Client</CreateButton>
+              </RouterLink>,
             ]}
           />
         </SimpleGrid>
@@ -34,15 +37,5 @@ export default function DashboardPage() {
         <InvoiceDataTable />
       </Box>
     </DashboardLayout>
-  );
-}
-function HeaderActionButtonsGroup(props: { buttons: ReactNode[] }) {
-  return (
-    <Flex justify={{ sm: 'flex-start', md: 'flex-end' }}>
-      {props.buttons.map((button, i) => {
-        const isLast = i === props.buttons.length - 1;
-        return <Box mr={isLast ? undefined : 4}>{button}</Box>;
-      })}
-    </Flex>
   );
 }
