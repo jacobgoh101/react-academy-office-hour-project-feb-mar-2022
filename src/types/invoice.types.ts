@@ -31,3 +31,7 @@ export interface TableInvoiceData extends TableData {
   clientName?: string;
   companyName?: string;
 }
+
+export interface InvoiceListingFilter {
+  clientId?: string;
+}

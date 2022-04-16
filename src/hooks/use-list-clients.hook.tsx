@@ -28,6 +28,7 @@ export const useListClients = (listingParams?: ListingParams) => {
       invoicesCount: client.invoicesCount,
       name: client.name,
       totalBilled: client.totalBilled,
+      rowHref: `/clients/${client.id}`,
     })) || [];
 
   return {

@@ -2,11 +2,13 @@ import { useQuery } from 'react-query';
 import { Column } from 'react-table';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { InvoiceService } from '../services/invoice.service';
-import { TableInvoiceData } from '../types/invoice.types';
+import { InvoiceListingFilter, TableInvoiceData } from '../types/invoice.types';
 import { ListingParams } from '../types/listing.types';
 import { formatUnix } from '../utils/date.util';
 
-export const useListInvoices = (listingParams?: ListingParams) => {
+export const useListInvoices = (
+  listingParams?: ListingParams & { filter?: InvoiceListingFilter }
+) => {
   const listInvoicesQuery = useQuery(
     [QUERY_KEYS.LIST_INVOICES, ...Object.values(listingParams || {})],
     () => InvoiceService.list(listingParams),
