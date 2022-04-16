@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface Client {
   user_id: string;
   email: string;
@@ -22,4 +24,5 @@ export interface TableClientData {
   companyName: string;
   totalBilled: number;
   invoicesCount: number;
+  action: ReactNode;
 }

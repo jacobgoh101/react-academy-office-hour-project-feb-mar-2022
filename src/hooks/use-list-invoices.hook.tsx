@@ -1,5 +1,9 @@
+import { EditIcon } from '@chakra-ui/icons';
+import { Icon, MenuItem } from '@chakra-ui/react';
+import { MdPrint } from 'react-icons/md';
 import { useQuery } from 'react-query';
 import { Column } from 'react-table';
+import { DataTableDropDownIcon } from '../components/data-table/DataTableDropDownIcon';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { InvoiceService } from '../services/invoice.service';
 import { InvoiceListingFilter, TableInvoiceData } from '../types/invoice.types';
@@ -23,6 +27,7 @@ export const useListInvoices = (
     { Header: 'Value', accessor: 'value' },
     { Header: 'Client', accessor: 'clientName' },
     { Header: 'Company', accessor: 'companyName' },
+    { Header: '', accessor: 'action' },
   ];
 
   const tableData: TableInvoiceData[] =
@@ -35,6 +40,12 @@ export const useListInvoices = (
       clientName: invoiceWithClient.client.name,
       companyName: invoiceWithClient.client.companyDetails.name,
       rowHref: `/invoices/${invoiceWithClient.invoice.id}`,
+      action: (
+        <DataTableDropDownIcon>
+          <MenuItem icon={<EditIcon />}>Edit invoice</MenuItem>
+          <MenuItem icon={<Icon as={MdPrint} />}>Print invoice</MenuItem>
+        </DataTableDropDownIcon>
+      ),
     })) || [];
 
   return {

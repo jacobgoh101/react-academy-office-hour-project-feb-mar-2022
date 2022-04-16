@@ -2,7 +2,6 @@ import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
   Box,
   chakra,
-  Heading,
   Progress,
   Table,
   Tbody,

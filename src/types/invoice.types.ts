@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Client } from './client.types';
 import { TableData } from './listing.types';
 
@@ -30,6 +31,7 @@ export interface TableInvoiceData extends TableData {
   value: number;
   clientName?: string;
   companyName?: string;
+  action: ReactNode;
 }
 
 export interface InvoiceListingFilter {
