@@ -1,6 +1,7 @@
 import { Route, Switch } from 'wouter';
 import NotFoundPage from './pages/404';
 import ClientPage from './pages/client';
+import ClientsPage from './pages/clients';
 import DashboardPage from './pages/dashboard';
 import EditClientPage from './pages/edit-client';
 import EditInvoicePage from './pages/edit-invoice';
@@ -22,6 +23,9 @@ function App() {
       </Route>
       <Route path="/onboarding">
         <OnboardingPage />
+      </Route>
+      <Route path="/clients">
+        <ClientsPage />
       </Route>
       <Route path="/clients/new">
         <NewClientPage />

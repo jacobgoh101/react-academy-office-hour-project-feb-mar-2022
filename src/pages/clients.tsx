@@ -2,17 +2,16 @@ import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
 import { CreateButton } from '../components/button/CreateButton';
 import { ViewButton } from '../components/button/ViewButton';
 import { ClientDataTable } from '../components/data-table/ClientDataTable';
-import { InvoiceDataTable } from '../components/data-table/InvoiceDataTable';
+import { HeaderActionButtonsGroup } from '../components/HeaderActionButtonsGroup';
 import { DashboardLayout } from '../components/layouts/dashboard';
 import { RouterLink } from '../components/router-link';
-import { HeaderActionButtonsGroup } from '../components/HeaderActionButtonsGroup';
 
-export default function DashboardPage() {
+export default function ClientsPage() {
   return (
     <DashboardLayout>
       <Box mb={20}>
         <SimpleGrid columns={{ sm: 1, md: 2 }} mb="4">
-          <Heading mb={2}>Latest Clients</Heading>
+          <Heading mb={2}>Clients</Heading>
           <HeaderActionButtonsGroup
             buttons={[
               <RouterLink href="/clients">
@@ -24,23 +23,7 @@ export default function DashboardPage() {
             ]}
           />
         </SimpleGrid>
-        <ClientDataTable />
-      </Box>
-      <Box mb={20}>
-        <SimpleGrid columns={{ sm: 1, md: 2 }} mb="4">
-          <Heading mb={2}>Latest Invoices</Heading>
-          <HeaderActionButtonsGroup
-            buttons={[
-              <RouterLink href="/invoices">
-                <ViewButton>View Invoices</ViewButton>{' '}
-              </RouterLink>,
-              <RouterLink href="/invoices/new">
-                <CreateButton>Create Invoice</CreateButton>
-              </RouterLink>,
-            ]}
-          />
-        </SimpleGrid>
-        <InvoiceDataTable />
+        <ClientDataTable paginate />
       </Box>
     </DashboardLayout>
   );
