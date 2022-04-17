@@ -15,9 +15,6 @@ export default function DashboardPage() {
           <Heading mb={2}>Latest Clients</Heading>
           <HeaderActionButtonsGroup
             buttons={[
-              <RouterLink href="/clients">
-                <ViewButton>View Clients</ViewButton>
-              </RouterLink>,
               <RouterLink href="/clients/new">
                 <CreateButton>Create Client</CreateButton>
               </RouterLink>,

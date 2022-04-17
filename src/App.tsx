@@ -6,6 +6,7 @@ import DashboardPage from './pages/dashboard';
 import EditClientPage from './pages/edit-client';
 import EditInvoicePage from './pages/edit-invoice';
 import InvoicePage from './pages/invoice';
+import InvoicesPage from './pages/invoices';
 import { LoginPage } from './pages/login';
 import NewClientPage from './pages/new-client';
 import NewInvoicePage from './pages/new-invoice';
@@ -32,6 +33,9 @@ function App() {
       </Route>
       <Route path="/clients/:id/edit">
         {({ id }) => <EditClientPage id={id} />}
+      </Route>
+      <Route path="/invoices">
+        <InvoicesPage />
       </Route>
       <Route path="/invoices/new">
         <NewInvoicePage />
