@@ -20,7 +20,14 @@ export interface Invoice {
 }
 
 interface Meta {
-  test: string;
+  test?: string;
+  items?: InvoiceItem[];
+}
+
+export interface InvoiceItem {
+  description: string;
+  rate: number;
+  quantity: number;
 }
 
 export interface TableInvoiceData extends TableData {

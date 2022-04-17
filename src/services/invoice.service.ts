@@ -21,4 +21,12 @@ export class InvoiceService {
   static get(id: string) {
     return axiosClient.get<ApiResponse<Invoice>>(`invoices/${id}`);
   }
+
+  static update(payload: Invoice) {
+    return axiosClient.put<ApiResponse<Invoice>>(`invoices`, payload);
+  }
+
+  static create(payload: Omit<Invoice, 'id'>) {
+    return axiosClient.post<ApiResponse<Invoice>>(`invoices`, payload);
+  }
 }

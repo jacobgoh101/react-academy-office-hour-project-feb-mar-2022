@@ -1,7 +1,20 @@
-import { Box, Flex, Heading, SimpleGrid, Spacer, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Heading,
+  SimpleGrid,
+  Spacer,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import { forwardRef, Ref } from 'react';
 import { Client } from '../../types/client.types';
-import { Invoice } from '../../types/invoice.types';
+import { Invoice, InvoiceItem } from '../../types/invoice.types';
 import { formatUnix } from '../../utils/date.util';
 
 export const InvoiceDetails = forwardRef(
@@ -70,8 +83,11 @@ export const InvoiceDetails = forwardRef(
           </Box>
         </SimpleGrid>
         <Box mt={20}>
+          <ItemList items={invoice?.meta?.items!} />
+        </Box>
+        <Box mt={20}>
           <Heading size={'md'} mb={2} textAlign={'center'}>
-            Invoice Value: ${invoice?.value}
+            Total: ${invoice?.value}
           </Heading>
         </Box>
       </Box>
@@ -90,5 +106,32 @@ function InvoiceDataRow({ label, value }: { label: string; value: string }) {
         <Text>{value}</Text>
       </Box>
     </Flex>
+  );
+}
+
+function ItemList({ items }: { items: InvoiceItem[] }) {
+  return (
+    <Box overflowX="auto">
+      <Table>
+        <Thead>
+          <Tr>
+            <Th>Item Description</Th>
+            <Th>Rate</Th>
+            <Th>Qty</Th>
+            <Th>Line Total</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {items.map((item, i) => (
+            <Tr key={i}>
+              <Td valign="top">{item.description}</Td>
+              <Td valign="top">${item.rate}</Td>
+              <Td valign="top">{item.quantity}</Td>
+              <Td valign="top">${(item.rate * item.quantity)?.toFixed(2)}</Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </Box>
   );
 }
