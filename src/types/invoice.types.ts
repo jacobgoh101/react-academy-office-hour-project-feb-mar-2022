@@ -43,4 +43,6 @@ export interface TableInvoiceData extends TableData {
 
 export interface InvoiceListingFilter {
   clientId?: string;
+  date?: { start: number; end: number };
+  dueDate?: { start: number; end: number };
 }

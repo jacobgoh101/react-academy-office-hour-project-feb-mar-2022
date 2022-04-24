@@ -3,6 +3,7 @@ import { useIPagination } from '../../hooks/use-i-pagination.hook';
 import { useISortTable } from '../../hooks/use-i-sort-table.hook';
 import { useListInvoices } from '../../hooks/use-list-invoices.hook';
 import { DataTable } from './DataTable';
+import { useInvoiceFilter } from '../../hooks/use-invoice-filter.hook';
 
 export function InvoiceDataTable({
   clientId,
@@ -15,10 +16,11 @@ export function InvoiceDataTable({
 }) {
   const { handleSort, sort } = useISortTable();
   const { pagination, setTotal } = useIPagination();
+  const { component: filterComponent, filter } = useInvoiceFilter();
 
   const { tableColumns, tableData, isLoading, isError, data } = useListInvoices(
     {
-      filter: { clientId },
+      filter: { clientId, ...filter },
       limit: 10,
       offset:
         pagination.currentPage * pagination.pageSize - pagination.pageSize,
@@ -39,6 +41,7 @@ export function InvoiceDataTable({
       pagination={paginate ? pagination : undefined}
       sortable={sortable}
       onSort={handleSort}
+      filter={paginate && filterComponent}
     />
   );
 }
