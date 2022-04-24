@@ -28,23 +28,22 @@ const InvoiceFilterSchema = Yup.object().shape({
     .label('End'),
 });
 
-export function useInvoiceFilter() {
-  const [filterBy, setFilterBy] = useSearchParamState('filterBy', 'date');
-  const [start, setStart] = useSearchParamState('start', '');
-  const [end, setEnd] = useSearchParamState('end', '');
-  const filter: Pick<InvoiceListingFilter, 'date' | 'dueDate'> = useMemo(() => {
-    if (filterBy && start && end) {
-      return {
-        [filterBy]: {
-          start: dateToUnix(start),
-          end: dateToUnix(end),
-        },
-      };
-    }
-    return {};
-  }, [filterBy, start, end]);
-
-  const component = (
+function FilterComponent({
+  filterBy,
+  start,
+  end,
+  setFilterBy,
+  setStart,
+  setEnd,
+}: {
+  filterBy: string;
+  start: string;
+  end: string;
+  setFilterBy: Function;
+  setStart: Function;
+  setEnd: Function;
+}) {
+  return (
     <Formik
       initialValues={{
         filterBy,
@@ -57,6 +56,7 @@ export function useInvoiceFilter() {
         setStart(values.start);
         setEnd(values.end);
       }}
+      enableReinitialize
     >
       {({
         values,
@@ -164,9 +164,35 @@ export function useInvoiceFilter() {
       )}
     </Formik>
   );
+}
+
+export function useInvoiceFilter() {
+  const [filterBy, setFilterBy] = useSearchParamState('filterBy', 'date');
+  const [start, setStart] = useSearchParamState('start', '');
+  const [end, setEnd] = useSearchParamState('end', '');
+  const filter: Pick<InvoiceListingFilter, 'date' | 'dueDate'> = useMemo(() => {
+    if (filterBy && start && end) {
+      return {
+        [filterBy]: {
+          start: dateToUnix(start),
+          end: dateToUnix(end),
+        },
+      };
+    }
+    return {};
+  }, [filterBy, start, end]);
 
   return {
     filter,
-    component,
+    component: (
+      <FilterComponent
+        filterBy={filterBy}
+        start={start}
+        end={end}
+        setFilterBy={setFilterBy}
+        setStart={setStart}
+        setEnd={setEnd}
+      />
+    ),
   };
 }

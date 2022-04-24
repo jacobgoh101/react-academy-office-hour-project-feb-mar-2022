@@ -6,7 +6,8 @@ export function useSearchParamState(
   key: string,
   defaultValue: string
 ): [string, React.Dispatch<React.SetStateAction<string>>] {
-  const [state, setState] = useState(useSearchParam(key)! || defaultValue);
+  const value = useSearchParam(key);
+  const [state, setState] = useState(value! || defaultValue);
   const [__, setLocation] = useLocation();
 
   useEffect(() => {
@@ -18,6 +19,10 @@ export function useSearchParamState(
     let redirectUrl = url.toString().replace(window.location.origin, '');
     setLocation(redirectUrl, { replace: true });
   }, [state]);
+
+  useEffect(() => {
+    if (value !== state) setState(value! || defaultValue);
+  }, [value]);
 
   return [state, setState];
 }
