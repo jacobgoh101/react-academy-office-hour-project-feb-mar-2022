@@ -1,0 +1,7 @@
+{
+  "baseUrl": "http://localhost:3030/",
+  "env": {
+    "baseUrl": "http://localhost:3030/",
+    "apiBaseUrl": "http://localhost:3139/"
+  }
+}
