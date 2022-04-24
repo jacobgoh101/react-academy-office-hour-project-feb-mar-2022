@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useSessionStorage } from 'react-use';
+import { useLocalStorage } from 'react-use';
 import { axiosClient } from '../constants/axios.client';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { authContext } from '../context/auth.context';
@@ -18,15 +18,15 @@ export const useAuth = () => {
 // Provider hook that creates auth object and handles state
 export function useProvideAuth() {
   const accessTokenStorageKey = 'invoice-app-access-token';
-  const [accessToken, setAccessToken] = useSessionStorage(
+  const [accessToken, setAccessToken] = useLocalStorage(
     accessTokenStorageKey,
     '',
-    true
+    { raw: true }
   );
 
-  setAccessTokenInAxios(accessToken);
+  setAccessTokenInAxios(accessToken!);
   useEffect(() => {
-    setAccessTokenInAxios(accessToken);
+    setAccessTokenInAxios(accessToken!);
   }, [accessToken]);
 
   const queryClient = useQueryClient();
