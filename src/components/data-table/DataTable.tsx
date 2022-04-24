@@ -2,6 +2,7 @@ import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
   Box,
   chakra,
+  Heading,
   Progress,
   Table,
   Tbody,
@@ -92,6 +93,19 @@ export function DataTable<D extends TableData>(props: {
             <Tr>
               <Td colSpan={columns.length}>
                 <Progress my={20} size="xs" isIndeterminate />
+              </Td>
+            </Tr>
+          ) : !rows.length ? (
+            <Tr>
+              <Td colSpan={columns.length}>
+                <Heading
+                  size="md"
+                  my={20}
+                  textAlign={'center'}
+                  fontWeight={'bold'}
+                >
+                  No data available
+                </Heading>
               </Td>
             </Tr>
           ) : (
