@@ -14,9 +14,6 @@ export default function ClientsPage() {
           <Heading mb={2}>Clients</Heading>
           <HeaderActionButtonsGroup
             buttons={[
-              <RouterLink href="/clients">
-                <ViewButton>View Clients</ViewButton>
-              </RouterLink>,
               <RouterLink href="/clients/new">
                 <CreateButton>Create Client</CreateButton>
               </RouterLink>,

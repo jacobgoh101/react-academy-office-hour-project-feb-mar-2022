@@ -15,6 +15,9 @@ export default function DashboardPage() {
           <Heading mb={2}>Latest Clients</Heading>
           <HeaderActionButtonsGroup
             buttons={[
+              <RouterLink href="/clients">
+                <ViewButton>View Clients</ViewButton>
+              </RouterLink>,
               <RouterLink href="/clients/new">
                 <CreateButton>Create Client</CreateButton>
               </RouterLink>,
@@ -29,7 +32,7 @@ export default function DashboardPage() {
           <HeaderActionButtonsGroup
             buttons={[
               <RouterLink href="/invoices">
-                <ViewButton>View Invoices</ViewButton>{' '}
+                <ViewButton>View Invoices</ViewButton>
               </RouterLink>,
               <RouterLink href="/invoices/new">
                 <CreateButton>Create Invoice</CreateButton>

@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   Flex,
   HStack,
   Menu,
@@ -13,6 +14,7 @@ import {
 import { AvatarGenerator } from 'random-avatar-generator';
 import { useAuth } from '../hooks/use-auth.hook';
 import { RouterLink } from './router-link';
+import style from './Nav.module.scss';
 
 const avatarGenerator = new AvatarGenerator();
 
@@ -24,7 +26,16 @@ export default function Nav() {
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
             <Box>
-              <RouterLink href="/">Invoice App</RouterLink>
+              <RouterLink href="/" className={style.logo}>
+                Invoice App
+              </RouterLink>
+            </Box>
+            <Divider orientation="vertical" />
+            <Box>
+              <RouterLink href="/clients">Clients</RouterLink>
+            </Box>
+            <Box>
+              <RouterLink href="/invoices">Invoices</RouterLink>
             </Box>
           </HStack>
           <Flex alignItems={'center'}>
