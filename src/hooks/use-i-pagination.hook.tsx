@@ -2,7 +2,9 @@ import { usePagination } from '@ajna/pagination';
 import { useEffect, useState } from 'react';
 import { useSearchParamState } from './use-synced-url-state.hook';
 
-export const useIPagination = () => {
+export const useIPagination = (paginate?: boolean) => {
+  if (!paginate) return {};
+
   const [total, setTotal] = useState(0);
   const [page, setPage] = useSearchParamState('page', '1');
 

@@ -5,7 +5,11 @@ import { TableInvoiceData } from '../types/invoice.types';
 import { Sort } from '../types/listing.types';
 import { useSearchParamState } from './use-synced-url-state.hook';
 
-export const useISortTable = () => {
+export const useISortTable: (sortable?: boolean) => {
+  handleSort?: (sortBy: SortingRule<TableInvoiceData>) => void;
+  sort?: Sort | undefined;
+} = (sortable?: boolean) => {
+  if (!sortable) return {};
   const [sortById, setSortById] = useSearchParamState('sortById', '');
   const [sortByDesc, setSortByDesc] = useSearchParamState('sortByDesc', '');
 

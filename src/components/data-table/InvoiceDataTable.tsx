@@ -14,22 +14,23 @@ export function InvoiceDataTable({
   paginate?: boolean;
   sortable?: boolean;
 }) {
-  const { handleSort, sort } = useISortTable();
-  const { pagination, setTotal } = useIPagination();
-  const { component: filterComponent, filter } = useInvoiceFilter();
+  const { handleSort, sort } = useISortTable(sortable);
+  const { pagination, setTotal } = useIPagination(paginate);
+  const { component: filterComponent, filter } = useInvoiceFilter(paginate);
 
   const { tableColumns, tableData, isLoading, isError, data } = useListInvoices(
     {
       filter: { clientId, ...filter },
       limit: 10,
-      offset:
-        pagination.currentPage * pagination.pageSize - pagination.pageSize,
+      offset: pagination
+        ? pagination.currentPage * pagination.pageSize - pagination.pageSize
+        : 0,
       ...(sort && { sort }),
     }
   );
 
   useEffect(() => {
-    setTotal(data?.data.total || 0);
+    setTotal?.(data?.data.total || 0);
   }, [data]);
 
   return (

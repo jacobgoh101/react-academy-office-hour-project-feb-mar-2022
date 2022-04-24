@@ -11,17 +11,19 @@ export function ClientDataTable({
   paginate?: boolean;
   sortable?: boolean;
 }) {
-  const { handleSort, sort } = useISortTable();
-  const { pagination, setTotal } = useIPagination();
+  const { handleSort, sort } = useISortTable(sortable);
+  const { pagination, setTotal } = useIPagination(paginate);
 
   const { tableColumns, tableData, isLoading, isError, data } = useListClients({
     limit: 10,
-    offset: pagination.currentPage * pagination.pageSize - pagination.pageSize,
+    offset: pagination
+      ? pagination.currentPage * pagination.pageSize - pagination.pageSize
+      : 0,
     ...(sort && { sort }),
   });
 
   useEffect(() => {
-    setTotal(data?.data.total || 0);
+    setTotal?.(data?.data.total || 0);
   }, [data]);
 
   return (

@@ -166,7 +166,11 @@ function FilterComponent({
   );
 }
 
-export function useInvoiceFilter() {
+export function useInvoiceFilter(filterOn?: boolean): {
+  filter?: Pick<InvoiceListingFilter, 'date' | 'dueDate'>;
+  component?: JSX.Element;
+} {
+  if (!filterOn) return {};
   const [filterBy, setFilterBy] = useSearchParamState('filterBy', 'date');
   const [start, setStart] = useSearchParamState('start', '');
   const [end, setEnd] = useSearchParamState('end', '');
