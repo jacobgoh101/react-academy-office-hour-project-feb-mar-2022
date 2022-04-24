@@ -1,4 +1,17 @@
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import {
+  Pagination,
+  PaginationContainer,
+  PaginationNext,
+  PaginationPage,
+  PaginationPageGroup,
+  PaginationPrevious,
+  usePagination,
+} from '@ajna/pagination';
+import {
+  ArrowUpDownIcon,
+  TriangleDownIcon,
+  TriangleUpIcon,
+} from '@chakra-ui/icons';
 import {
   Box,
   chakra,
@@ -11,19 +24,11 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { Column, Row, useSortBy, useTable } from 'react-table';
+import { useEffect } from 'react';
+import { Column, Row, SortingRule, useSortBy, useTable } from 'react-table';
 import { useLocation } from 'wouter';
 import { TableData } from '../../types/listing.types';
 import { StandardErrorMessage } from '../StandardErrorMessage';
-import {
-  Pagination,
-  usePagination,
-  PaginationNext,
-  PaginationPage,
-  PaginationPrevious,
-  PaginationContainer,
-  PaginationPageGroup,
-} from '@ajna/pagination';
 
 export function DataTable<D extends TableData>(props: {
   columns: Column<D>[];
@@ -32,6 +37,7 @@ export function DataTable<D extends TableData>(props: {
   isError?: boolean;
   errorMessage?: string;
   sortable?: boolean;
+  onSort?: (sortBy: SortingRule<D>) => void;
   pagination?: ReturnType<typeof usePagination>;
 }) {
   const {
@@ -41,6 +47,7 @@ export function DataTable<D extends TableData>(props: {
     isError,
     errorMessage = 'Failed to Load Data',
     sortable = false,
+    onSort,
     pagination,
   } = props;
   const [_, setLocation] = useLocation();
@@ -49,16 +56,31 @@ export function DataTable<D extends TableData>(props: {
     return () => row.original.rowHref && setLocation(row.original.rowHref);
   }
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable<D>(
-      {
-        columns,
-        data,
-        //@ts-ignore
-        disableSortBy: !sortable,
-      },
-      useSortBy
-    );
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state: {
+      //@ts-ignore
+      sortBy,
+    },
+  } = useTable<D>(
+    {
+      columns,
+      data,
+      //@ts-ignore
+      disableSortBy: !sortable,
+      manualSortBy: true,
+      disableMultiSort: true,
+    },
+    useSortBy
+  );
+
+  useEffect(() => {
+    onSort?.(sortBy[0]);
+  }, [sortBy]);
 
   return (
     <Box overflowX="auto">
@@ -80,7 +102,12 @@ export function DataTable<D extends TableData>(props: {
                         ) : (
                           <TriangleUpIcon aria-label="sorted ascending" />
                         )
-                      ) : null
+                      ) : (
+                        // @ts-ignore
+                        !column.disableSortBy && (
+                          <ArrowUpDownIcon aria-label="sortable" />
+                        )
+                      )
                     }
                   </chakra.span>
                 </Th>

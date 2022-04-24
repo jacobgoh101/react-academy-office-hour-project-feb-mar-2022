@@ -1,5 +1,6 @@
 import { EditIcon } from '@chakra-ui/icons';
 import { Icon, MenuItem } from '@chakra-ui/react';
+import { useMemo } from 'react';
 import { MdPrint } from 'react-icons/md';
 import { useQuery } from 'react-query';
 import { Column } from 'react-table';
@@ -8,30 +9,59 @@ import { RouterLink } from '../components/router-link';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { InvoiceService } from '../services/invoice.service';
 import { InvoiceListingFilter, TableInvoiceData } from '../types/invoice.types';
-import { ListingParams } from '../types/listing.types';
+import { ListingParams, Sort } from '../types/listing.types';
 import { formatUnix } from '../utils/date.util';
 
 export const useListInvoices = (
   listingParams?: ListingParams & { filter?: InvoiceListingFilter }
 ) => {
+  const defaultSort = { creation: 'desc' } as Sort;
+
   // default to sorting by creation DESC
-  listingParams = { sort: { creation: 'desc' }, ...listingParams };
+  const iListingParams = useMemo(() => {
+    return { sort: defaultSort, ...listingParams };
+  }, [listingParams]);
 
   const listInvoicesQuery = useQuery(
-    [QUERY_KEYS.LIST_INVOICES, ...Object.values(listingParams || {})],
-    () => InvoiceService.list(listingParams),
+    [QUERY_KEYS.LIST_INVOICES, iListingParams],
+    () => InvoiceService.list(iListingParams),
     { keepPreviousData: true }
   );
 
   const tableColumns: Column<TableInvoiceData>[] = [
-    { Header: 'ID', accessor: 'id' },
-    { Header: 'Invoice No.', accessor: 'invoiceNumber' },
+    {
+      Header: 'ID',
+      accessor: 'id',
+      //@ts-ignore
+      disableSortBy: true,
+    },
+    {
+      Header: 'Invoice No.',
+      accessor: 'invoiceNumber',
+      //@ts-ignore
+      disableSortBy: true,
+    },
     { Header: 'Date', accessor: 'date' },
     { Header: 'Due Date', accessor: 'dueDate' },
-    { Header: 'Value', accessor: 'value' },
-    { Header: 'Client', accessor: 'clientName' },
+    {
+      Header: 'Value',
+      accessor: 'value',
+      //@ts-ignore
+      disableSortBy: true,
+    },
+    {
+      Header: 'Client',
+      accessor: 'clientName',
+      //@ts-ignore
+      disableSortBy: true,
+    },
     { Header: 'Company', accessor: 'companyName' },
-    { Header: '', accessor: 'action' },
+    {
+      Header: '',
+      accessor: 'action',
+      //@ts-ignore
+      disableSortBy: true,
+    },
   ];
 
   const tableData: TableInvoiceData[] =

@@ -20,7 +20,7 @@ export default function InvoicesPage() {
             ]}
           />
         </SimpleGrid>
-        <InvoiceDataTable paginate />
+        <InvoiceDataTable paginate sortable />
       </Box>
     </DashboardLayout>
   );

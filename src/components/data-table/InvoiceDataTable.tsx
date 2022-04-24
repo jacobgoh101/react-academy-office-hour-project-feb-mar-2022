@@ -1,15 +1,19 @@
 import { useEffect } from 'react';
 import { useIPagination } from '../../hooks/use-i-pagination.hook';
+import { useISortTable } from '../../hooks/use-i-sort-table.hook';
 import { useListInvoices } from '../../hooks/use-list-invoices.hook';
 import { DataTable } from './DataTable';
 
 export function InvoiceDataTable({
   clientId,
-  paginate = false,
+  paginate,
+  sortable,
 }: {
   clientId?: string;
   paginate?: boolean;
+  sortable?: boolean;
 }) {
+  const { handleSort, sort } = useISortTable();
   const { pagination, setTotal } = useIPagination();
 
   const { tableColumns, tableData, isLoading, isError, data } = useListInvoices(
@@ -18,6 +22,7 @@ export function InvoiceDataTable({
       limit: 10,
       offset:
         pagination.currentPage * pagination.pageSize - pagination.pageSize,
+      ...(sort && { sort }),
     }
   );
 
@@ -32,6 +37,8 @@ export function InvoiceDataTable({
       isLoading={isLoading}
       isError={isError}
       pagination={paginate ? pagination : undefined}
+      sortable={sortable}
+      onSort={handleSort}
     />
   );
 }
