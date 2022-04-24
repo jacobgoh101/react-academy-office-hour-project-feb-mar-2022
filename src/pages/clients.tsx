@@ -20,7 +20,7 @@ export default function ClientsPage() {
             ]}
           />
         </SimpleGrid>
-        <ClientDataTable paginate />
+        <ClientDataTable paginate sortable />
       </Box>
     </DashboardLayout>
   );

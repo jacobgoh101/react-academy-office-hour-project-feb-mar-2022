@@ -20,7 +20,7 @@ interface CompanyDetails {
 export interface TableClientData {
   id: string;
   email: string;
-  name: string;
+  clientName: string;
   companyName: string;
   totalBilled: number;
   invoicesCount: number;

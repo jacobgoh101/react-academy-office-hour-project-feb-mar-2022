@@ -1,5 +1,6 @@
 import { AddIcon, EditIcon } from '@chakra-ui/icons';
 import { MenuItem } from '@chakra-ui/react';
+import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { Column } from 'react-table';
 import { DataTableDropDownIcon } from '../components/data-table/DataTableDropDownIcon';
@@ -7,26 +8,44 @@ import { RouterLink } from '../components/router-link';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { ClientService } from '../services/client.service';
 import { TableClientData } from '../types/client.types';
-import { ListingParams } from '../types/listing.types';
+import { ListingParams, Sort } from '../types/listing.types';
 
 export const useListClients = (listingParams?: ListingParams) => {
+  const defaultSort = { creation: 'desc' } as Sort;
   // default to sorting by creation DESC
-  listingParams = { sort: { creation: 'desc' }, ...listingParams };
+  const iListingParams = useMemo(() => {
+    return { sort: defaultSort, ...listingParams };
+  }, [listingParams]);
 
   const listClientsQuery = useQuery(
-    [QUERY_KEYS.LIST_CLIENTS, ...Object.values(listingParams || {})],
-    () => ClientService.list(listingParams),
+    [QUERY_KEYS.LIST_CLIENTS, iListingParams],
+    () => ClientService.list(iListingParams),
     { keepPreviousData: true }
   );
 
   const tableColumns: Column<TableClientData>[] = [
-    { Header: 'ID', accessor: 'id' },
-    { Header: 'Email', accessor: 'email' },
-    { Header: 'Name', accessor: 'name' },
+    {
+      Header: 'ID',
+      accessor: 'id',
+      //@ts-ignore
+      disableSortBy: true,
+    },
+    {
+      Header: 'Email',
+      accessor: 'email',
+      //@ts-ignore
+      disableSortBy: true,
+    },
+    { Header: 'Name', accessor: 'clientName' },
     { Header: 'Company Name', accessor: 'companyName' },
     { Header: 'Total Billed', accessor: 'totalBilled' },
     { Header: 'Invoices Count', accessor: 'invoicesCount' },
-    { Header: '', accessor: 'action' },
+    {
+      Header: '',
+      accessor: 'action',
+      //@ts-ignore
+      disableSortBy: true,
+    },
   ];
   const tableData: TableClientData[] =
     listClientsQuery.data?.data.clients?.map((client) => ({
@@ -34,7 +53,7 @@ export const useListClients = (listingParams?: ListingParams) => {
       email: client.email,
       id: client.id,
       invoicesCount: client.invoicesCount,
-      name: client.name,
+      clientName: client.name,
       totalBilled: client.totalBilled,
       rowHref: `/clients/${client.id}`,
       action: (
