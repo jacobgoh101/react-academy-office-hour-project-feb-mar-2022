@@ -1,5 +1,6 @@
 import { Box, Flex, Progress, Spacer } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useReactToPrint } from 'react-to-print';
 import { EditButton } from '../components/button/EditButtion';
 import { PrintButton } from '../components/button/PrintButton';
 import { ViewButton } from '../components/button/ViewButton';
@@ -11,8 +12,9 @@ import { StandardErrorMessage } from '../components/StandardErrorMessage';
 import { useGetClient } from '../hooks/use-get-client.hook';
 import { useGetInvoice } from '../hooks/use-get-invoice.hook';
 
-export default function InvoicePage(props: { id: string }) {
-  const { id } = props;
+export default function InvoicePage(props: { id: string; print?: boolean }) {
+  const { id, print } = props;
+  const [shouldPrint, setShouldPrint] = useState(print);
 
   const {
     data: invoiceData,
@@ -35,6 +37,13 @@ export default function InvoicePage(props: { id: string }) {
   const isError = invoiceQueryIsError || clientQueryIsError;
 
   const componentRef = useRef(null);
+  const handlePrint = useReactToPrint({ content: () => componentRef.current });
+  useEffect(() => {
+    if (componentRef.current && shouldPrint) {
+      handlePrint();
+      setShouldPrint(false);
+    }
+  });
 
   return (
     <DashboardLayout>
@@ -57,7 +66,7 @@ export default function InvoicePage(props: { id: string }) {
                     <RouterLink href={`/invoices/${id}/edit`}>
                       <EditButton>Edit Invoice</EditButton>
                     </RouterLink>,
-                    <PrintButton componentRef={componentRef} />,
+                    <PrintButton handlePrint={handlePrint} />,
                   ]}
                 />
               </Box>

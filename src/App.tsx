@@ -34,6 +34,7 @@ function App() {
       <Route path="/clients/:id/edit">
         {({ id }) => <EditClientPage id={id} />}
       </Route>
+      <Route path="/clients/:id">{({ id }) => <ClientPage id={id} />}</Route>
       <Route path="/invoices">
         <InvoicesPage />
       </Route>
@@ -47,7 +48,9 @@ function App() {
         {({ id }) => <EditInvoicePage id={id} />}
       </Route>
       <Route path="/invoices/:id">{({ id }) => <InvoicePage id={id} />}</Route>
-      <Route path="/clients/:id">{({ id }) => <ClientPage id={id} />}</Route>
+      <Route path="/invoices/:id/print">
+        {({ id }) => <InvoicePage id={id} print />}
+      </Route>
       <Route path="/">
         <DashboardPage />
       </Route>

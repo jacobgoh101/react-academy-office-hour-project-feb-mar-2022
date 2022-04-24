@@ -4,6 +4,7 @@ import { MdPrint } from 'react-icons/md';
 import { useQuery } from 'react-query';
 import { Column } from 'react-table';
 import { DataTableDropDownIcon } from '../components/data-table/DataTableDropDownIcon';
+import { RouterLink } from '../components/router-link';
 import { QUERY_KEYS } from '../constants/query.constant';
 import { InvoiceService } from '../services/invoice.service';
 import { InvoiceListingFilter, TableInvoiceData } from '../types/invoice.types';
@@ -42,8 +43,12 @@ export const useListInvoices = (
       rowHref: `/invoices/${invoiceWithClient.invoice.id}`,
       action: (
         <DataTableDropDownIcon>
-          <MenuItem icon={<EditIcon />}>Edit invoice</MenuItem>
-          <MenuItem icon={<Icon as={MdPrint} />}>Print invoice</MenuItem>
+          <RouterLink href={`/invoices/${invoiceWithClient.invoice.id}/edit`}>
+            <MenuItem icon={<EditIcon />}>Edit invoice</MenuItem>
+          </RouterLink>
+          <RouterLink href={`/invoices/${invoiceWithClient.invoice.id}/print`}>
+            <MenuItem icon={<Icon as={MdPrint} />}>Print invoice</MenuItem>
+          </RouterLink>
         </DataTableDropDownIcon>
       ),
     })) || [];
