@@ -43,6 +43,7 @@ export function InvoiceDataTable({
       onSort={handleSort}
       sort={sort}
       filter={paginate && filterComponent}
+      key={JSON.stringify(sort)}
     />
   );
 }
