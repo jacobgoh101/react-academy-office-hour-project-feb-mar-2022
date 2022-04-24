@@ -214,6 +214,9 @@ export function InvoiceForm(props: {
     ];
   }
 
+  const disableClientSelection =
+    invoice?.client_id || props.clientOptions.length < 2;
+
   return (
     <>
       {props.isError && <StandardFormErrorAlert />}
@@ -259,6 +262,7 @@ export function InvoiceForm(props: {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.clientId}
+                    disabled={disableClientSelection}
                   >
                     {props.clientOptions.map((client) => (
                       <option value={client.id} key={client.id}>
