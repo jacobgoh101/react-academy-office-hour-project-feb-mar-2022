@@ -103,6 +103,7 @@ export function DataTable<D extends TableData>(props: {
                           <TriangleUpIcon aria-label="sorted ascending" />
                         )
                       ) : (
+                        sortable &&
                         // @ts-ignore
                         !column.disableSortBy && (
                           <ArrowUpDownIcon aria-label="sortable" />
