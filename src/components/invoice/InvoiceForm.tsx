@@ -219,7 +219,7 @@ export function InvoiceForm(props: {
       {props.isError && <StandardFormErrorAlert />}
       <Formik
         initialValues={{
-          clientId: invoice?.client_id || '',
+          clientId: invoice?.client_id || props.clientOptions[0].id || '',
           date: invoice?.date ? unixToDate(invoice.date) : ''!,
           dueDate: invoice?.dueDate ? unixToDate(invoice.dueDate) : ''!,
           invoiceNumber: invoice?.invoice_number || '',
