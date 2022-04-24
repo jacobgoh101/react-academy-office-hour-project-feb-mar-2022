@@ -30,7 +30,9 @@ export default function ClientPage(props: { id: string }) {
                   <RouterLink href={`/clients/${id}/edit`}>
                     <EditButton>Edit Client</EditButton>
                   </RouterLink>,
-                  <CreateButton>Create Invoice</CreateButton>,
+                  <RouterLink href={`/clients/${id}/invoices/new`}>
+                    <CreateButton>Create Invoice</CreateButton>
+                  </RouterLink>,
                 ]}
               />
             </Box>

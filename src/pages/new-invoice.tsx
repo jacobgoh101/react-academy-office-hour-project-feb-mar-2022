@@ -1,5 +1,5 @@
 import { Box, Heading, Progress, useToast } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useLocation } from 'wouter';
 import { InvoiceForm } from '../components/invoice/InvoiceForm';
 import { DashboardLayout } from '../components/layouts/dashboard';
@@ -8,12 +8,19 @@ import { useCreateInvoice } from '../hooks/use-create-invoice.hook';
 import { dateToUnix } from '../utils/date.util';
 import { getInvoiceTotalValue } from '../utils/invoice.util';
 
-export default function NewInvoicePage() {
+export default function NewInvoicePage({ clientId }: { clientId?: string }) {
   const {
     options: clientOptions,
     getUserIdByClientId,
     isLoading,
   } = useClientOptions();
+
+  const filteredClientOptions = useMemo(() => {
+    if (clientId) {
+      return clientOptions?.filter(({ id }) => id === clientId);
+    }
+    return clientOptions;
+  }, [clientId, clientOptions]);
 
   const {
     mutateAsync: createInvoice,
@@ -59,7 +66,7 @@ export default function NewInvoicePage() {
                 value: getInvoiceTotalValue(values.items),
               });
             }}
-            clientOptions={clientOptions!}
+            clientOptions={filteredClientOptions!}
           />
         )}
       </Box>

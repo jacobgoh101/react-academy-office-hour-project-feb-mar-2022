@@ -40,6 +40,9 @@ function App() {
       <Route path="/invoices/new">
         <NewInvoicePage />
       </Route>
+      <Route path="/clients/:clientId/invoices/new">
+        {({ clientId }) => <NewInvoicePage clientId={clientId} />}
+      </Route>
       <Route path="/invoices/:id/edit">
         {({ id }) => <EditInvoicePage id={id} />}
       </Route>

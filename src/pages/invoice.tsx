@@ -2,6 +2,7 @@ import { Box, Flex, Progress, Spacer } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { EditButton } from '../components/button/EditButtion';
 import { PrintButton } from '../components/button/PrintButton';
+import { ViewButton } from '../components/button/ViewButton';
 import { HeaderActionButtonsGroup } from '../components/HeaderActionButtonsGroup';
 import { InvoiceDetails } from '../components/invoice/InvoiceDetails';
 import { DashboardLayout } from '../components/layouts/dashboard';
@@ -19,12 +20,15 @@ export default function InvoicePage(props: { id: string }) {
     isLoading: invoiceQueryIsLoading,
     isError: invoiceQueryIsError,
   } = useGetInvoice(id);
+
+  const clientId = invoiceData?.data?.invoice?.client_id;
+
   const {
     data: clientData,
     isSuccess: clientQueryIsSuccess,
     isLoading: clientQueryIsLoading,
     isError: clientQueryIsError,
-  } = useGetClient(invoiceData?.data.invoice?.client_id);
+  } = useGetClient(clientId);
 
   const isSuccess = invoiceQueryIsSuccess && clientQueryIsSuccess;
   const isLoading = invoiceQueryIsLoading || clientQueryIsLoading;
@@ -47,6 +51,9 @@ export default function InvoicePage(props: { id: string }) {
               <Box>
                 <HeaderActionButtonsGroup
                   buttons={[
+                    <RouterLink href={`/clients/${clientId}`}>
+                      <ViewButton>View Client</ViewButton>
+                    </RouterLink>,
                     <RouterLink href={`/invoices/${id}/edit`}>
                       <EditButton>Edit Invoice</EditButton>
                     </RouterLink>,
