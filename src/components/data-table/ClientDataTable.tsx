@@ -36,6 +36,7 @@ export function ClientDataTable({
       sortable={sortable}
       onSort={handleSort}
       sort={sort}
+      id="client-table"
     />
   );
 }

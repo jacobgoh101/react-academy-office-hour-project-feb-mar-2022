@@ -45,6 +45,7 @@ export function InvoiceDataTable({
       sort={sort}
       filter={paginate && filterComponent}
       key={JSON.stringify(sort)}
+      id="invoice-table"
     />
   );
 }

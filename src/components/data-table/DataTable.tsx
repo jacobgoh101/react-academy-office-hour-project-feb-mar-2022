@@ -41,6 +41,7 @@ export function DataTable<D extends TableData>(props: {
   pagination?: ReturnType<typeof usePagination>;
   filter?: ReactNode;
   sort?: Sort;
+  id?: string;
 }) {
   const {
     columns,
@@ -53,6 +54,7 @@ export function DataTable<D extends TableData>(props: {
     pagination,
     filter,
     sort,
+    id: tableId,
   } = props;
   const [_, setLocation] = useLocation();
 
@@ -101,7 +103,7 @@ export function DataTable<D extends TableData>(props: {
     <>
       <Box>{filter}</Box>
       <Box overflowX="auto">
-        <Table {...getTableProps()}>
+        <Table {...getTableProps()} data-test={tableId}>
           <Thead>
             {headerGroups.map((headerGroup) => (
               <Tr {...headerGroup.getHeaderGroupProps()}>

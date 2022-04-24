@@ -23,3 +23,15 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', function () {
+    cy.session([], function () {
+        cy.fixture('users.json').then((userFixture) => {
+            cy.visit(Cypress.env('baseUrl') + 'login')
+            cy.get(`[id="email"]`).type(userFixture[0].email)
+            cy.get(`[id="password"]`).type(userFixture[0].password)
+            cy.get(`[type="submit"]`).click()
+            cy.url().should('eq', Cypress.env('baseUrl'))
+        });
+    })
+})
