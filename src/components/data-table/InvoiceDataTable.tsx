@@ -41,6 +41,7 @@ export function InvoiceDataTable({
       pagination={paginate ? pagination : undefined}
       sortable={sortable}
       onSort={handleSort}
+      sort={sort}
       filter={paginate && filterComponent}
     />
   );

@@ -33,6 +33,7 @@ export function ClientDataTable({
       pagination={paginate ? pagination : undefined}
       sortable={sortable}
       onSort={handleSort}
+      sort={sort}
     />
   );
 }

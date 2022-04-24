@@ -1,15 +1,26 @@
-import { useState } from 'react';
+import { isBoolean } from 'lodash';
+import { useMemo } from 'react';
 import { SortingRule } from 'react-table';
 import { TableInvoiceData } from '../types/invoice.types';
 import { Sort } from '../types/listing.types';
+import { useSearchParamState } from './use-synced-url-state.hook';
 
 export const useISortTable = () => {
-  // default to sorting by creation DESC
-  const [sortBy, setSortBy] = useState<SortingRule<TableInvoiceData> | null>(
-    null
-  );
+  const [sortById, setSortById] = useSearchParamState('sortById', '');
+  const [sortByDesc, setSortByDesc] = useSearchParamState('sortByDesc', '');
+
+  const sortBy: SortingRule<TableInvoiceData> | null = useMemo(() => {
+    return sortById && sortByDesc
+      ? {
+          id: sortById,
+          desc: JSON.parse(sortByDesc),
+        }
+      : null;
+  }, [sortById, sortByDesc]);
+
   const handleSort = (sortBy: SortingRule<TableInvoiceData>) => {
-    setSortBy(sortBy);
+    setSortById(sortBy?.id || '');
+    setSortByDesc(isBoolean(sortBy?.desc) ? JSON.stringify(sortBy.desc) : '');
   };
 
   return {

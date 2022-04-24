@@ -27,7 +27,7 @@ import {
 import { ReactNode, useEffect } from 'react';
 import { Column, Row, SortingRule, useSortBy, useTable } from 'react-table';
 import { useLocation } from 'wouter';
-import { TableData } from '../../types/listing.types';
+import { Sort, TableData } from '../../types/listing.types';
 import { StandardErrorMessage } from '../StandardErrorMessage';
 
 export function DataTable<D extends TableData>(props: {
@@ -40,6 +40,7 @@ export function DataTable<D extends TableData>(props: {
   onSort?: (sortBy: SortingRule<D>) => void;
   pagination?: ReturnType<typeof usePagination>;
   filter?: ReactNode;
+  sort?: Sort;
 }) {
   const {
     columns,
@@ -51,6 +52,7 @@ export function DataTable<D extends TableData>(props: {
     onSort,
     pagination,
     filter,
+    sort,
   } = props;
   const [_, setLocation] = useLocation();
 
@@ -76,6 +78,17 @@ export function DataTable<D extends TableData>(props: {
       disableSortBy: !sortable,
       manualSortBy: true,
       disableMultiSort: true,
+      //@ts-ignore
+      initialState: {
+        ...(sort && {
+          sortBy: [
+            {
+              id: Object.keys(sort)?.[0],
+              desc: Object.values(sort)?.[0] === 'desc',
+            },
+          ],
+        }),
+      },
     },
     useSortBy
   );

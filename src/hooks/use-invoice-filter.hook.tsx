@@ -4,20 +4,17 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   HStack,
   Input,
   Select,
-  Stack,
   VStack,
-  Wrap,
-  WrapItem,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
-import { useState } from 'react';
-import { InvoiceListingFilter } from '../types/invoice.types';
+import { useMemo } from 'react';
 import * as Yup from 'yup';
+import { InvoiceListingFilter } from '../types/invoice.types';
 import { dateToUnix } from '../utils/date.util';
+import { useSearchParamState } from './use-synced-url-state.hook';
 
 const InvoiceFilterSchema = Yup.object().shape({
   filterBy: Yup.string()
@@ -32,27 +29,33 @@ const InvoiceFilterSchema = Yup.object().shape({
 });
 
 export function useInvoiceFilter() {
-  const [filter, setFilter] = useState<
-    Pick<InvoiceListingFilter, 'date' | 'dueDate'>
-  >({});
+  const [filterBy, setFilterBy] = useSearchParamState('filterBy', 'date');
+  const [start, setStart] = useSearchParamState('start', '');
+  const [end, setEnd] = useSearchParamState('end', '');
+  const filter: Pick<InvoiceListingFilter, 'date' | 'dueDate'> = useMemo(() => {
+    if (filterBy && start && end) {
+      return {
+        [filterBy]: {
+          start: dateToUnix(start),
+          end: dateToUnix(end),
+        },
+      };
+    }
+    return {};
+  }, [filterBy, start, end]);
 
   const component = (
     <Formik
       initialValues={{
-        filterBy: 'date',
-        start: '',
-        end: '',
+        filterBy,
+        start,
+        end,
       }}
       validationSchema={InvoiceFilterSchema}
       onSubmit={async (values, { setSubmitting }) => {
-        setFilter(() => {
-          return {
-            [values.filterBy]: {
-              start: dateToUnix(values.start),
-              end: dateToUnix(values.end),
-            },
-          };
-        });
+        setFilterBy(values.filterBy);
+        setStart(values.start);
+        setEnd(values.end);
       }}
     >
       {({
@@ -136,7 +139,9 @@ export function useInvoiceFilter() {
                 <Button
                   onClick={() => {
                     resetForm();
-                    setFilter({});
+                    setFilterBy('');
+                    setStart('');
+                    setEnd('');
                   }}
                 >
                   Clear
@@ -162,7 +167,6 @@ export function useInvoiceFilter() {
 
   return {
     filter,
-    setFilter,
     component,
   };
 }

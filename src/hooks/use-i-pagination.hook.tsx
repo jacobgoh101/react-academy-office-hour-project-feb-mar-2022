@@ -1,18 +1,18 @@
 import { usePagination } from '@ajna/pagination';
 import { useEffect, useState } from 'react';
-import { useSyncPaginationWithUrl } from './use-sync-pagination-with-url.hook';
+import { useSearchParamState } from './use-synced-url-state.hook';
 
 export const useIPagination = () => {
   const [total, setTotal] = useState(0);
-  const { page, setPage } = useSyncPaginationWithUrl();
+  const [page, setPage] = useSearchParamState('page', '1');
 
   const pagination = usePagination({
     total,
-    initialState: { currentPage: page, pageSize: 10 },
+    initialState: { currentPage: +page, pageSize: 10 },
   });
 
   useEffect(() => {
-    setPage(pagination.currentPage);
+    setPage(String(pagination.currentPage));
   }, [pagination.currentPage]);
 
   return { page, setPage, total, setTotal, pagination };
