@@ -42,9 +42,11 @@ export const useListClients = (listingParams?: ListingParams) => {
           <RouterLink href={`/clients/${client.id}/edit`}>
             <MenuItem icon={<EditIcon />}>Edit client</MenuItem>
           </RouterLink>
-          <MenuItem icon={<AddIcon />}>
-            Add a new invoice for the client
-          </MenuItem>
+          <RouterLink href={`/clients/${client.id}/invoices/new`}>
+            <MenuItem icon={<AddIcon />}>
+              Add a new invoice for the client
+            </MenuItem>
+          </RouterLink>
         </DataTableDropDownIcon>
       ),
     })) || [];
