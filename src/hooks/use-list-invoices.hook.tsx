@@ -14,6 +14,9 @@ import { formatUnix } from '../utils/date.util';
 export const useListInvoices = (
   listingParams?: ListingParams & { filter?: InvoiceListingFilter }
 ) => {
+  // default to sorting by creation DESC
+  listingParams = { sort: { creation: 'desc' }, ...listingParams };
+
   const listInvoicesQuery = useQuery(
     [QUERY_KEYS.LIST_INVOICES, ...Object.values(listingParams || {})],
     () => InvoiceService.list(listingParams),

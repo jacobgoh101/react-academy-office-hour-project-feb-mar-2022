@@ -10,6 +10,9 @@ import { TableClientData } from '../types/client.types';
 import { ListingParams } from '../types/listing.types';
 
 export const useListClients = (listingParams?: ListingParams) => {
+  // default to sorting by creation DESC
+  listingParams = { sort: { creation: 'desc' }, ...listingParams };
+
   const listClientsQuery = useQuery(
     [QUERY_KEYS.LIST_CLIENTS, ...Object.values(listingParams || {})],
     () => ClientService.list(listingParams),
