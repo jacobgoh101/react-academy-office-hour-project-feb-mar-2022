@@ -350,7 +350,12 @@ export function InvoiceForm(props: {
                 setFieldValue={setFieldValue}
               />
               <Box mt={0}>
-                <Heading size={'md'} mb={2} textAlign={'center'}>
+                <Heading
+                  size={'md'}
+                  mb={2}
+                  textAlign={'center'}
+                  data-test="total"
+                >
                   Total: ${getInvoiceTotalValue(values.items)}
                 </Heading>
               </Box>

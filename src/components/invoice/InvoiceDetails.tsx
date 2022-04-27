@@ -86,7 +86,7 @@ export const InvoiceDetails = forwardRef(
           <ItemList items={invoice?.meta?.items!} />
         </Box>
         <Box mt={20}>
-          <Heading size={'md'} mb={2} textAlign={'center'}>
+          <Heading size={'md'} mb={2} textAlign={'center'} data-test="total">
             Total: ${invoice?.value}
           </Heading>
         </Box>
