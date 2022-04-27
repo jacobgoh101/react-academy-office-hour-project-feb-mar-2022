@@ -41,18 +41,7 @@ describe('apps', function () {
             cy.get(`[id="confirmPassword"]`).type('123456')
             cy.get(`[id="name"]`).type(faker.name.findName())
             cy.get(`[type="submit"]`).click()
-            cy.get(`[role="alert"]`).should('contain', 'Please check your entries and try again')
-        })
-    })
-
-    context('when the email was already used', function () {
-        it('show errors', function () {
-            cy.get(`[id="email"]`).type(this.users[0].email)
-            cy.get(`[id="password"]`).type('123456')
-            cy.get(`[id="confirmPassword"]`).type('123456')
-            cy.get(`[id="name"]`).type(faker.name.findName())
-            cy.get(`[type="submit"]`).click()
-            cy.get(`[role="alert"]`).should('contain', 'Please check your entries and try again')
+            cy.get(`[role="alert"]`).should('contain', 'Email already used by another account')
         })
     })
 

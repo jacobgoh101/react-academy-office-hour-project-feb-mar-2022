@@ -20,7 +20,7 @@ describe('apps', function () {
                 cy.get(`[id="email"]`).type(faker.internet.email())
                 cy.get(`[id="password"]`).type(faker.internet.password())
                 cy.get(`[type="submit"]`).click()
-                cy.get(`[role="alert"]`).should('contain', 'The username or password is incorrect')
+                cy.get(`[role="alert"]`).should('contain', 'Invalid Credentials')
             })
         })
 

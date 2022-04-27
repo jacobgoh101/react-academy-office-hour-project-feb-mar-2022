@@ -23,7 +23,7 @@ describe('apps', function () {
 
         it('allow the user to go to page 2', function () {
             cy.get('.pagination-container').find('button').contains('Next').click()
-            cy.get('.pagination-container').find('button').contains('Next').should('be.disabled')
+            cy.get('.pagination-container').find('button[aria-current="true"]').contains('2').should('exist')
             cy.get('.pagination-container').find('button').contains('Previous').should('not.be.disabled')
             cy.location('search').should('contain', 'page=2')
         })
@@ -51,7 +51,7 @@ describe('apps', function () {
             cy.get('th').contains('total billed', { matchCase: false }).click();
             cy.reload()
             cy.wait(1000)
-            cy.get('.pagination-container').find('button').contains('Next').should('be.disabled')
+            cy.get('.pagination-container').find('button[aria-current="true"]').contains('2').should('exist')
             cy.get('.pagination-container').find('button').contains('Previous').should('not.be.disabled')
             cy.location('search').should('contain', 'page=2')
             cy.location('search').should('contain', 'sortById=totalBilled')
