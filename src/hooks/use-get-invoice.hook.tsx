@@ -6,7 +6,7 @@ export const useGetInvoice = (id: string) => {
   const getInvoiceQuery = useQuery(
     [QUERY_KEYS.GET_INVOICE_BY_ID, id],
     () => InvoiceService.get(id),
-    { enabled: !!id }
+    { enabled: !!id, cacheTime: 0 }
   );
 
   return {

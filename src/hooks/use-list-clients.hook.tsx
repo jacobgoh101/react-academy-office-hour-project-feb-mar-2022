@@ -20,7 +20,7 @@ export const useListClients = (listingParams?: ListingParams) => {
   const listClientsQuery = useQuery(
     [QUERY_KEYS.LIST_CLIENTS, iListingParams],
     () => ClientService.list(iListingParams),
-    { keepPreviousData: true }
+    { keepPreviousData: true, cacheTime: 0 }
   );
 
   const tableColumns: Column<TableClientData>[] = [

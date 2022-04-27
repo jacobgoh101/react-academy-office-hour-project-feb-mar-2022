@@ -6,7 +6,7 @@ export const useGetClient = (id?: string) => {
   const getClientQuery = useQuery(
     [QUERY_KEYS.GET_CLIENT_BY_ID, id],
     () => ClientService.get(id!),
-    { enabled: !!id }
+    { enabled: !!id, cacheTime: 0 }
   );
 
   return {

@@ -25,7 +25,7 @@ export const useListInvoices = (
   const listInvoicesQuery = useQuery(
     [QUERY_KEYS.LIST_INVOICES, iListingParams],
     () => InvoiceService.list(iListingParams),
-    { keepPreviousData: true }
+    { keepPreviousData: true, cacheTime: 0 }
   );
 
   const tableColumns: Column<TableInvoiceData>[] = [

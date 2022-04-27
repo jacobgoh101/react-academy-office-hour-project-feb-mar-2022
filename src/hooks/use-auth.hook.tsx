@@ -38,6 +38,7 @@ export function useProvideAuth() {
         setAccessToken('');
       }
     },
+    cacheTime: 0,
   });
   const user = meQuery.data?.data;
 
