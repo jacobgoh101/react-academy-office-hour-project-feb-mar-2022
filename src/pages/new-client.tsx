@@ -5,14 +5,16 @@ import { useLocation } from 'wouter';
 import { ClientForm } from '../components/client/ClientForm';
 import { DashboardLayout } from '../components/layouts/dashboard';
 import { useCreateClient } from '../hooks/use-create-client.hook';
+import { useErrorParser } from '../hooks/use-error-parser.hook';
 
 export default function NewClientPage() {
   const {
     mutateAsync: createClient,
     data,
     isSuccess,
-    isError,
+    error,
   } = useCreateClient();
+  const { errorMessage } = useErrorParser(error);
   const [_, setLocation] = useLocation();
   const toast = useToast();
 
@@ -35,7 +37,7 @@ export default function NewClientPage() {
         <Heading mb={4}>Create new client</Heading>
 
         <ClientForm
-          isError={isError}
+          errorMessage={errorMessage}
           onSubmit={async (values) => {
             createClient({
               ...pick(values, ['name', 'email']),

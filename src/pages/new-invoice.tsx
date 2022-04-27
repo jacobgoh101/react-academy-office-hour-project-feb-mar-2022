@@ -5,6 +5,7 @@ import { InvoiceForm } from '../components/invoice/InvoiceForm';
 import { DashboardLayout } from '../components/layouts/dashboard';
 import { useClientOptions } from '../hooks/use-all-clients.hook';
 import { useCreateInvoice } from '../hooks/use-create-invoice.hook';
+import { useErrorParser } from '../hooks/use-error-parser.hook';
 import { dateToUnix } from '../utils/date.util';
 import { getInvoiceTotalValue } from '../utils/invoice.util';
 
@@ -24,10 +25,11 @@ export default function NewInvoicePage({ clientId }: { clientId?: string }) {
 
   const {
     mutateAsync: createInvoice,
-    isError,
     isSuccess,
     data,
+    error,
   } = useCreateInvoice();
+  const { errorMessage } = useErrorParser(error);
   const [_, setLocation] = useLocation();
   const toast = useToast();
 
@@ -53,7 +55,7 @@ export default function NewInvoicePage({ clientId }: { clientId?: string }) {
           <Progress size="xs" isIndeterminate />
         ) : (
           <InvoiceForm
-            isError={isError}
+            errorMessage={errorMessage}
             onSubmit={async (values) => {
               createInvoice({
                 date: dateToUnix(values.date),

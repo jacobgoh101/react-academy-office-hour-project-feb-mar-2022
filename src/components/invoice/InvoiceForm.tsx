@@ -202,10 +202,10 @@ export function InvoiceForm(props: {
     projectCode: string;
     items: InvoiceItem[];
   }) => void;
-  isError: boolean;
+  errorMessage?: string;
   clientOptions: Client[];
 }) {
-  const { invoice, onSubmit } = props;
+  const { invoice, onSubmit, errorMessage, clientOptions } = props;
 
   let defaultMetaItems = invoice?.meta?.items;
   if (!defaultMetaItems) {
@@ -214,15 +214,19 @@ export function InvoiceForm(props: {
     ];
   }
 
-  const disableClientSelection =
-    invoice?.client_id || props.clientOptions.length < 2;
+  const disableClientSelection = invoice?.client_id || clientOptions.length < 2;
+
+  if (!clientOptions?.length)
+    return (
+      <StandardFormErrorAlert errorMessage="Please create a client before starting a new invoice." />
+    );
 
   return (
     <>
-      {props.isError && <StandardFormErrorAlert />}
+      {errorMessage && <StandardFormErrorAlert errorMessage={errorMessage} />}
       <Formik
         initialValues={{
-          clientId: invoice?.client_id || props.clientOptions[0].id || '',
+          clientId: invoice?.client_id || props.clientOptions[0]?.id || '',
           date: invoice?.date ? unixToDate(invoice.date) : ''!,
           dueDate: invoice?.dueDate ? unixToDate(invoice.dueDate) : ''!,
           invoiceNumber: invoice?.invoice_number || '',
@@ -255,7 +259,6 @@ export function InvoiceForm(props: {
                   mt={4}
                 >
                   <FormLabel>Client</FormLabel>
-                  {/* TODO: use a combobox for this? */}
                   <Field
                     as={Select}
                     name="clientId"

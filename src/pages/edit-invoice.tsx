@@ -1,11 +1,11 @@
 import { Box, Heading, Progress, useToast } from '@chakra-ui/react';
-import { chain } from 'lodash';
 import { useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { InvoiceForm } from '../components/invoice/InvoiceForm';
 import { DashboardLayout } from '../components/layouts/dashboard';
 import { StandardErrorMessage } from '../components/StandardErrorMessage';
 import { useClientOptions } from '../hooks/use-all-clients.hook';
+import { useErrorParser } from '../hooks/use-error-parser.hook';
 import { useGetInvoice } from '../hooks/use-get-invoice.hook';
 import { useUpdateInvoice } from '../hooks/use-update-invoice.hook';
 import { dateToUnix } from '../utils/date.util';
@@ -26,7 +26,8 @@ export default function EditInvoicePage(props: { id: string }) {
   } = useGetInvoice(id);
   const isLoading = isLoadingClientOptions || isLoadingInvoiceData;
 
-  const { mutateAsync: updateInvoice, isError, isSuccess } = useUpdateInvoice();
+  const { mutateAsync: updateInvoice, isSuccess, error } = useUpdateInvoice();
+  const { errorMessage } = useErrorParser(error);
   const [_, setLocation] = useLocation();
   const toast = useToast();
 
@@ -52,7 +53,7 @@ export default function EditInvoicePage(props: { id: string }) {
           <Progress size="xs" isIndeterminate />
         ) : (
           <InvoiceForm
-            isError={isError}
+            errorMessage={errorMessage}
             invoice={invoiceData?.data.invoice}
             onSubmit={async (values) => {
               updateInvoice({

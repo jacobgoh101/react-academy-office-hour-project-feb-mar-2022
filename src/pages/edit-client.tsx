@@ -5,6 +5,7 @@ import { useLocation } from 'wouter';
 import { ClientForm } from '../components/client/ClientForm';
 import { DashboardLayout } from '../components/layouts/dashboard';
 import { StandardErrorMessage } from '../components/StandardErrorMessage';
+import { useErrorParser } from '../hooks/use-error-parser.hook';
 import { useGetClient } from '../hooks/use-get-client.hook';
 import { useUpdateClient } from '../hooks/use-update-client.hook';
 
@@ -16,7 +17,8 @@ export default function EditClientPage(props: { id: string }) {
     isLoading: isLoadingClientData,
     isError: isClientDataError,
   } = useGetClient(id);
-  const { mutateAsync: updateClient, isError, isSuccess } = useUpdateClient();
+  const { mutateAsync: updateClient, isSuccess, error } = useUpdateClient();
+  const { errorMessage } = useErrorParser(error);
   const [_, setLocation] = useLocation();
   const toast = useToast();
 
@@ -42,7 +44,7 @@ export default function EditClientPage(props: { id: string }) {
           <Progress size="xs" isIndeterminate />
         ) : (
           <ClientForm
-            isError={isError}
+            errorMessage={errorMessage}
             client={clientData?.data.client}
             onSubmit={async (values) => {
               updateClient({

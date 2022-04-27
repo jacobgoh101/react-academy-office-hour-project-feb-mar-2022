@@ -32,12 +32,12 @@ export function ClientForm(props: {
     vatNumber: string;
     regNumber: string;
   }) => void;
-  isError: boolean;
+  errorMessage: string;
 }) {
-  const { client, onSubmit } = props;
+  const { client, onSubmit, errorMessage } = props;
   return (
     <>
-      {props.isError && <StandardFormErrorAlert />}
+      {errorMessage && <StandardFormErrorAlert errorMessage={errorMessage} />}
       <Formik
         initialValues={{
           name: client?.name ?? '',
