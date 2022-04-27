@@ -125,6 +125,7 @@ function ItemManager(props: {
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
                     value={get(props.values, `items[${i}].description`)}
+                    placeholder="Item Description"
                   />
                   <FormErrorMessage>
                     {get(props.errors, `items[${i}].description`)}
@@ -149,6 +150,7 @@ function ItemManager(props: {
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
                       value={get(props.values, `items[${i}].rate`)}
+                      placeholder="Rate"
                     />
                   </InputGroup>
                   <FormErrorMessage>
@@ -170,6 +172,7 @@ function ItemManager(props: {
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
                     value={get(props.values, `items[${i}].quantity`)}
+                    placeholder="Quantity"
                   />
                   <FormErrorMessage>
                     {get(props.errors, `items[${i}].quantity`)}
@@ -213,7 +216,7 @@ export function InvoiceForm(props: {
   let defaultMetaItems = invoice?.meta?.items;
   if (!defaultMetaItems) {
     defaultMetaItems = [
-      { description: 'Unnamed Item', rate: invoice?.value || 0, quantity: 0 },
+      { description: '', rate: invoice?.value || 0, quantity: 0 },
     ];
   }
 
