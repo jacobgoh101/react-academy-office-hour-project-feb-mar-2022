@@ -19,6 +19,7 @@ import { AuthLayout } from '../components/layouts/auth';
 import { RouterLink } from '../components/router-link';
 import { useAfterAuth } from '../hooks/use-after-auth.hook';
 import { useAuth } from '../hooks/use-auth.hook';
+import { useErrorParser } from '../hooks/use-error-parser.hook';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -27,13 +28,14 @@ const LoginSchema = Yup.object().shape({
 
 export function LoginPage() {
   const { login, loginError } = useAuth();
+  const { errorMessage } = useErrorParser(loginError);
   useAfterAuth();
 
   const alert = loginError && (
     <Box pb={6}>
       <Alert status="error" rounded="md">
         <AlertIcon />
-        The username or password is incorrect
+        {errorMessage || `The username or password is incorrect`}
       </Alert>
     </Box>
   );

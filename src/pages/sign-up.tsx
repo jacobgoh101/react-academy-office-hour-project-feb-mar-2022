@@ -22,6 +22,7 @@ import { AuthLayout } from '../components/layouts/auth';
 import { RouterLink } from '../components/router-link';
 import { useAfterAuth } from '../hooks/use-after-auth.hook';
 import { useAuth } from '../hooks/use-auth.hook';
+import { useErrorParser } from '../hooks/use-error-parser.hook';
 
 const SignUpSchema = Yup.object().shape({
   email: Yup.string().email().required().label('Email'),
@@ -37,14 +38,16 @@ export function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signUp, signUpError } = useAuth();
+  const { errorMessage } = useErrorParser(signUpError);
   useAfterAuth();
 
   const alert = signUpError && (
     <Box pb={6}>
       <Alert status="error" rounded="md">
         <AlertIcon />
-        One or more fields are filled out incorrectly. Please check your entries
-        and try again.
+        {errorMessage ||
+          `One or more fields are filled out incorrectly. Please check your
+entries and try again.`}
       </Alert>
     </Box>
   );
