@@ -34,7 +34,10 @@ import { StandardFormErrorAlert } from '../StandardFormErrorAlert';
 const InvoiceSchema = Yup.object().shape({
   clientId: Yup.string().required().label('Client'),
   date: Yup.date().required().label('Date'),
-  dueDate: Yup.date().required().label('Due Date'),
+  dueDate: Yup.date()
+    .min(Yup.ref('date'), "due date can't be before date")
+    .required()
+    .label('Due Date'),
   invoiceNumber: Yup.number().required().label('Invoice No.'),
   projectCode: Yup.string().required().label('Project Code'),
   items: Yup.array()
